@@ -51,6 +51,15 @@ export const WHAT_WE_DO_ROWS: readonly WhatWeDoRow[] = [
   },
 ] as const;
 
+export const INDUSTRY_QUOTE = {
+  text: "AI is the future. It's coming. It's here right now and we're in.",
+  name: "Dana White",
+  context: "On AI in UFC promotional films",
+} as const;
+
+/** Background reel for the industry quote block — swap path in `public/`. */
+export const INDUSTRY_QUOTE_VIDEO_SRC = "/dana-white.mp4";
+
 export type WorkSlot = {
   id: string;
   label: string;
