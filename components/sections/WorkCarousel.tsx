@@ -11,6 +11,7 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { WORK_SLOTS } from "@/lib/constants";
+import { CarouselVideo } from "@/components/ui/CarouselVideo";
 import { EASE } from "@/lib/motion";
 
 const N = WORK_SLOTS.length;
@@ -95,7 +96,7 @@ export function WorkCarousel() {
 
   if (reduceMotion) {
     return (
-      <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl">
+      <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl" data-carousel-root>
         <motion.div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/[0.08] bg-[#08080a] sm:rounded-2xl">
           <SlideContent slot={slot} showOverlayLabel={false} />
         </motion.div>
@@ -105,7 +106,7 @@ export function WorkCarousel() {
   }
 
   return (
-    <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl">
+    <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl" data-carousel-root>
       <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/[0.06] bg-[#030305] shadow-[0_32px_80px_-40px_rgba(0,0,0,0.75)] sm:rounded-2xl">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
@@ -182,15 +183,7 @@ function SlideContent({
   return (
     <div className="relative h-full w-full">
       {slot.videoSrc ? (
-        <video
-          className="h-full w-full object-cover"
-          src={slot.videoSrc}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        />
+        <CarouselVideo src={slot.videoSrc} active />
       ) : (
         <motion.div className="flex h-full w-full items-center justify-center bg-[#06060a]">
           <div

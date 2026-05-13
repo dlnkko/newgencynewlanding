@@ -5,7 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 type BackgroundVideoProps = {
   src: string;
   onError?: () => void;
-  /** When true, only attempts playback while the element is in the viewport. */
+  /** Defer loading/playback until the block enters the viewport. */
   playWhenInView?: boolean;
   className?: string;
 };
@@ -20,7 +20,14 @@ export function BackgroundVideo({
   const videoRef = useRef<HTMLVideoElement>(null);
   const playAttempts = useRef(0);
   const inViewRef = useRef(!playWhenInView);
-  const [playing, setPlaying] = useState(false);
+  const hasStartedRef = useRef(false);
+  const [started, setStarted] = useState(false);
+
+  const markStarted = useCallback(() => {
+    if (hasStartedRef.current) return;
+    hasStartedRef.current = true;
+    setStarted(true);
+  }, []);
 
   const tryPlay = useCallback(async () => {
     const el = videoRef.current;
@@ -36,7 +43,7 @@ export function BackgroundVideo({
     if (el.paused) {
       try {
         await el.play();
-        setPlaying(true);
+        markStarted();
       } catch {
         playAttempts.current += 1;
         if (playAttempts.current < 24) {
@@ -44,21 +51,17 @@ export function BackgroundVideo({
         }
       }
     } else {
-      setPlaying(true);
+      markStarted();
     }
-  }, [playWhenInView]);
-
-  const pauseIfNeeded = useCallback(() => {
-    const el = videoRef.current;
-    if (!el || !playWhenInView) return;
-    if (!inViewRef.current && !el.paused) {
-      el.pause();
-    }
-  }, [playWhenInView]);
+  }, [markStarted, playWhenInView]);
 
   useLayoutEffect(() => {
     const el = videoRef.current;
     if (!el) return;
+
+    playAttempts.current = 0;
+    hasStartedRef.current = false;
+    setStarted(false);
 
     const onReady = () => {
       void tryPlay();
@@ -68,14 +71,16 @@ export function BackgroundVideo({
     el.addEventListener("canplay", onReady);
     el.addEventListener("playing", onReady);
 
-    void tryPlay();
+    if (!playWhenInView) {
+      void tryPlay();
+    }
 
     return () => {
       el.removeEventListener("loadeddata", onReady);
       el.removeEventListener("canplay", onReady);
       el.removeEventListener("playing", onReady);
     };
-  }, [tryPlay, src]);
+  }, [tryPlay, src, playWhenInView]);
 
   useEffect(() => {
     if (!playWhenInView) return;
@@ -88,25 +93,22 @@ export function BackgroundVideo({
         inViewRef.current = entry?.isIntersecting ?? false;
         if (inViewRef.current) {
           void tryPlay();
-        } else {
-          pauseIfNeeded();
         }
       },
-      { threshold: 0.12, rootMargin: "80px 0px" },
+      { threshold: 0.08, rootMargin: "120px 0px" },
     );
 
     observer.observe(root);
     return () => observer.disconnect();
-  }, [playWhenInView, tryPlay, pauseIfNeeded]);
+  }, [playWhenInView, tryPlay]);
 
   useEffect(() => {
     const resume = () => {
       void tryPlay();
     };
 
-    document.addEventListener("touchstart", resume, { passive: true });
-    document.addEventListener("click", resume);
-    document.addEventListener("scroll", resume, { passive: true });
+    document.addEventListener("touchstart", resume, { passive: true, once: true });
+    document.addEventListener("click", resume, { once: true });
     window.addEventListener("pageshow", resume);
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") resume();
@@ -115,7 +117,6 @@ export function BackgroundVideo({
     return () => {
       document.removeEventListener("touchstart", resume);
       document.removeEventListener("click", resume);
-      document.removeEventListener("scroll", resume);
       window.removeEventListener("pageshow", resume);
     };
   }, [tryPlay]);
@@ -125,26 +126,26 @@ export function BackgroundVideo({
       ref={rootRef}
       className={`absolute inset-0 overflow-hidden bg-[#020202] ${className}`}
     >
-      {!playing ? (
+      {!started ? (
         <div className="absolute inset-0 z-[2] bg-[#030303]" aria-hidden />
       ) : null}
       <video
         ref={videoRef}
         src={src}
-        className="hero-video pointer-events-none absolute inset-0 z-[1] h-full w-full scale-[1.04] object-cover transition-opacity duration-500"
-        style={{ opacity: playing ? 1 : 0 }}
+        className="hero-video pointer-events-none absolute inset-0 z-[1] h-full w-full scale-[1.04] object-cover transition-opacity duration-700"
+        style={{ opacity: started ? 1 : 0 }}
         muted
-        autoPlay
+        autoPlay={!playWhenInView}
         loop
         playsInline
-        preload={playWhenInView ? "metadata" : "auto"}
+        preload={playWhenInView ? "none" : "auto"}
         disablePictureInPicture
         disableRemotePlayback
         controls={false}
         tabIndex={-1}
         onError={onError}
-        onPlaying={() => setPlaying(true)}
-        onPlay={() => setPlaying(true)}
+        onPlaying={markStarted}
+        onPlay={markStarted}
         aria-hidden
       />
     </div>
