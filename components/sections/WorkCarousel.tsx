@@ -1,11 +1,10 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
   useReducedMotion,
-  type PanInfo,
   type Variants,
 } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -16,29 +15,10 @@ import { EASE } from "@/lib/motion";
 
 const N = WORK_SLOTS.length;
 
-function directionBetween(from: number, to: number): number {
-  const forward = (to - from + N) % N;
-  return forward <= N / 2 ? 1 : -1;
-}
-
-const slideVariants: Variants = {
-  enter: (dir: number) => ({
-    x: dir > 0 ? 48 : -48,
-    opacity: 0,
-    filter: "blur(10px)",
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: { duration: 0.52, ease: EASE },
-  },
-  exit: (dir: number) => ({
-    x: dir < 0 ? 48 : -48,
-    opacity: 0,
-    filter: "blur(8px)",
-    transition: { duration: 0.4, ease: EASE },
-  }),
+const captionVariants: Variants = {
+  enter: { opacity: 0, y: 10 },
+  center: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.3, ease: EASE } },
 };
 
 function SlideCaption({ label, index }: { label: string; index: number }) {
@@ -56,26 +36,35 @@ function SlideCaption({ label, index }: { label: string; index: number }) {
 
 export function WorkCarousel() {
   const reduceMotion = useReducedMotion();
-  const [[index, direction], setSlide] = useState([0, 0]);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+  const [videosEnabled, setVideosEnabled] = useState(false);
   const slot = WORK_SLOTS[index]!;
 
-  const goTo = useCallback(
-    (to: number) => {
-      const next = ((to % N) + N) % N;
-      if (next === index) return;
-      setSlide([next, directionBetween(index, next)]);
-    },
-    [index],
-  );
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setVideosEnabled(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "280px 0px", threshold: 0.01 },
+    );
+
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  const goTo = useCallback((to: number) => {
+    setIndex(((to % N) + N) % N);
+  }, []);
 
   const goNext = useCallback(() => goTo(index + 1), [goTo, index]);
   const goPrev = useCallback(() => goTo(index - 1), [goTo, index]);
-
-  const onDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const t = info.offset.x + info.velocity.x * 0.15;
-    if (t < -40) goNext();
-    else if (t > 40) goPrev();
-  };
 
   const caption = reduceMotion ? (
     <SlideCaption label={slot.label} index={index} />
@@ -83,10 +72,10 @@ export function WorkCarousel() {
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={`${slot.id}-${index}`}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.4, ease: EASE }}
+        variants={captionVariants}
+        initial="enter"
+        animate="center"
+        exit="exit"
         className="w-full"
       >
         <SlideCaption label={slot.label} index={index} />
@@ -94,42 +83,45 @@ export function WorkCarousel() {
     </AnimatePresence>
   );
 
-  if (reduceMotion) {
-    return (
-      <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl" data-carousel-root>
-        <motion.div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/[0.08] bg-[#08080a] sm:rounded-2xl">
-          <SlideContent slot={slot} showOverlayLabel={false} />
-        </motion.div>
-        <motion.div className="mt-5 sm:mt-6">{caption}</motion.div>
-      </motion.div>
-    );
-  }
-
   return (
-    <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl" data-carousel-root>
+    <div
+      ref={rootRef}
+      className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl"
+      data-carousel-root
+    >
       <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/[0.06] bg-[#030305] shadow-[0_32px_80px_-40px_rgba(0,0,0,0.75)] sm:rounded-2xl">
-        <AnimatePresence initial={false} custom={direction} mode="wait">
-          <motion.div
-            key={`${slot.id}-${index}`}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.1}
-            onDragEnd={onDragEnd}
-            className="absolute inset-0 cursor-grab touch-manipulation active:cursor-grabbing"
-          >
-            <SlideContent slot={slot} showOverlayLabel={false} />
-          </motion.div>
-        </AnimatePresence>
+        {!videosEnabled ? (
+          <div
+            className="absolute inset-0 z-20 bg-[#030305]"
+            style={{
+              backgroundImage:
+                "radial-gradient(ellipse 70% 55% at 30% 40%, rgba(139,124,246,0.12), transparent 55%)",
+            }}
+            aria-hidden
+          />
+        ) : null}
+
+        {WORK_SLOTS.map((s, i) =>
+          s.videoSrc ? (
+            <CarouselVideo
+              key={s.id}
+              src={s.videoSrc}
+              isActive={i === index}
+              enabled={videosEnabled}
+            />
+          ) : (
+            <PlaceholderSlide
+              key={s.id}
+              label={s.label}
+              isActive={i === index}
+            />
+          ),
+        )}
 
         <button
           type="button"
           onClick={goPrev}
-          className="absolute left-2 top-1/2 z-20 flex size-11 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/75 backdrop-blur-md transition hover:border-white/25 hover:bg-black/65 hover:text-white sm:left-3 md:left-5 md:size-11"
+          className="absolute left-2 top-1/2 z-30 flex size-11 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/75 backdrop-blur-md transition hover:border-white/25 hover:bg-black/65 hover:text-white sm:left-3 md:left-5"
           aria-label="Previous"
         >
           <ChevronLeft className="size-5" strokeWidth={1.5} />
@@ -137,16 +129,16 @@ export function WorkCarousel() {
         <button
           type="button"
           onClick={goNext}
-          className="absolute right-2 top-1/2 z-20 flex size-11 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/75 backdrop-blur-md transition hover:border-white/25 hover:bg-black/65 hover:text-white sm:right-3 md:right-5 md:size-11"
+          className="absolute right-2 top-1/2 z-30 flex size-11 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/75 backdrop-blur-md transition hover:border-white/25 hover:bg-black/65 hover:text-white sm:right-3 md:right-5"
           aria-label="Next"
         >
           <ChevronRight className="size-5" strokeWidth={1.5} />
         </button>
       </div>
 
-      <motion.div className="mt-5 flex max-w-full flex-col items-center gap-3 sm:mt-6 md:mt-7">
+      <div className="mt-5 flex max-w-full flex-col items-center gap-3 sm:mt-6 md:mt-7">
         {caption}
-        <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-2 px-1">
+        <motion.div className="flex flex-wrap justify-center gap-x-1.5 gap-y-2 px-1">
           {WORK_SLOTS.map((s, i) => (
             <button
               key={s.id}
@@ -167,52 +159,36 @@ export function WorkCarousel() {
               )}
             </button>
           ))}
-        </div>
-      </motion.div>
-    </motion.div>
+        </motion.div>
+      </div>
+    </div>
   );
 }
 
-function SlideContent({
-  slot,
-  showOverlayLabel,
+function PlaceholderSlide({
+  label,
+  isActive,
 }: {
-  slot: (typeof WORK_SLOTS)[number];
-  showOverlayLabel: boolean;
+  label: string;
+  isActive: boolean;
 }) {
   return (
-    <div className="relative h-full w-full">
-      {slot.videoSrc ? (
-        <CarouselVideo src={slot.videoSrc} active />
-      ) : (
-        <motion.div className="flex h-full w-full items-center justify-center bg-[#06060a]">
-          <div
-            className="absolute inset-0 opacity-[0.65]"
-            style={{
-              backgroundImage:
-                "radial-gradient(ellipse 70% 55% at 25% 35%, rgba(139,124,246,0.2), transparent 50%), radial-gradient(ellipse 60% 50% at 75% 65%, rgba(125,211,252,0.12), transparent 50%)",
-            }}
-          />
-          <div className="relative flex flex-col items-center gap-2 px-6 text-center">
-            <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-white/35">
-              {slot.label}
-            </span>
-          </div>
-        </motion.div>
-      )}
-      {showOverlayLabel ? (
-        <>
-          <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[55%] bg-gradient-to-t from-black via-black/70 to-transparent"
-            aria-hidden
-          />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex w-full min-w-0 px-4 pb-4 sm:px-6 sm:pb-5">
-            <span className="font-display text-sm leading-snug text-white sm:text-base">
-              {slot.label}
-            </span>
-          </div>
-        </>
-      ) : null}
+    <div
+      className={`absolute inset-0 flex items-center justify-center bg-[#06060a] transition-opacity duration-300 ${
+        isActive ? "z-10 opacity-100" : "z-0 opacity-0"
+      }`}
+      aria-hidden={!isActive}
+    >
+      <div
+        className="absolute inset-0 opacity-[0.65]"
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse 70% 55% at 25% 35%, rgba(139,124,246,0.2), transparent 50%), radial-gradient(ellipse 60% 50% at 75% 65%, rgba(125,211,252,0.12), transparent 50%)",
+        }}
+      />
+      <span className="relative font-mono text-[10px] uppercase tracking-[0.28em] text-white/35">
+        {label}
+      </span>
     </div>
   );
 }

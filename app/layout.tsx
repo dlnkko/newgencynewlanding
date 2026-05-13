@@ -17,11 +17,15 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Newgency — AI-Powered Video Ads",
+  title: "Newgency",
   description:
     "Newgency creates hyperrealistic and animated advertising videos using AI to help businesses connect, engage and convert.",
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "32x32" }],
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
+  },
   openGraph: {
-    title: "Newgency — AI-Powered Video Ads",
+    title: "Newgency",
     description:
       "Smarter videos. Stronger results. AI-powered ad creatives built to convert.",
   },
@@ -41,6 +45,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <link
           rel="preload"
           href={HERO_VIDEO_SRC}

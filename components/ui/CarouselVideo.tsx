@@ -4,17 +4,18 @@ import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 
 type CarouselVideoProps = {
   src: string;
-  active: boolean;
+  isActive: boolean;
+  /** When false, video is not mounted/loaded yet. */
+  enabled: boolean;
 };
 
-export function CarouselVideo({ src, active }: CarouselVideoProps) {
+export function CarouselVideo({ src, isActive, enabled }: CarouselVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playAttempts = useRef(0);
-  const inViewRef = useRef(false);
 
   const tryPlay = useCallback(async () => {
     const el = videoRef.current;
-    if (!el || !active || !inViewRef.current) return;
+    if (!el || !enabled || !isActive) return;
 
     el.muted = true;
     el.playsInline = true;
@@ -24,74 +25,63 @@ export function CarouselVideo({ src, active }: CarouselVideoProps) {
         await el.play();
       } catch {
         playAttempts.current += 1;
-        if (playAttempts.current < 12) {
-          window.setTimeout(tryPlay, 150 * playAttempts.current);
+        if (playAttempts.current < 16) {
+          window.setTimeout(tryPlay, 120 * playAttempts.current);
         }
       }
     }
-  }, [active]);
+  }, [enabled, isActive]);
 
   useLayoutEffect(() => {
     const el = videoRef.current;
-    if (!el) return;
+    if (!el || !enabled) return;
 
     playAttempts.current = 0;
 
     const onReady = () => {
-      void tryPlay();
+      if (isActive) void tryPlay();
     };
 
     el.addEventListener("canplay", onReady);
-    void tryPlay();
+    el.addEventListener("loadeddata", onReady);
+
+    if (isActive) void tryPlay();
+    else el.pause();
 
     return () => {
       el.removeEventListener("canplay", onReady);
-      el.pause();
+      el.removeEventListener("loadeddata", onReady);
     };
-  }, [src, active, tryPlay]);
+  }, [src, isActive, enabled, tryPlay]);
 
   useEffect(() => {
     const el = videoRef.current;
-    if (!el) return;
+    if (!el || !enabled) return;
 
-    const root = el.closest("[data-carousel-root]");
-    if (!root) {
-      inViewRef.current = true;
+    if (isActive) {
       void tryPlay();
-      return;
+    } else {
+      el.pause();
     }
+  }, [isActive, enabled, tryPlay]);
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        inViewRef.current = entry?.isIntersecting ?? false;
-        if (inViewRef.current && active) {
-          void tryPlay();
-        } else if (!active) {
-          el.pause();
-        }
-      },
-      { threshold: 0.2, rootMargin: "40px 0px" },
-    );
-
-    observer.observe(root);
-    return () => observer.disconnect();
-  }, [active, tryPlay]);
-
-  if (!active) return null;
+  if (!enabled) return null;
 
   return (
     <video
       ref={videoRef}
-      className="hero-video h-full w-full object-cover"
+      className={`hero-video absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+        isActive ? "z-10 opacity-100" : "z-0 opacity-0"
+      }`}
       src={src}
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="auto"
       disablePictureInPicture
       controls={false}
       tabIndex={-1}
-      aria-hidden
+      aria-hidden={!isActive}
     />
   );
 }

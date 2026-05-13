@@ -28,7 +28,7 @@ export function IndustryQuote() {
         <BackgroundVideo
           src={INDUSTRY_QUOTE_VIDEO_SRC}
           onError={onVideoError}
-          playWhenInView
+          stable
         />
       ) : null}
 
