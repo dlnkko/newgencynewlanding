@@ -13,9 +13,11 @@ export default function Home() {
         <Hero />
         <div className="relative isolate bg-[#030303]">
           <AmbientBackground />
-          <WhatWeDo />
-          <SelectedWork />
-          <ApplySection />
+          <div className="relative z-10">
+            <WhatWeDo />
+            <SelectedWork />
+            <ApplySection />
+          </div>
         </div>
       </main>
     </div>

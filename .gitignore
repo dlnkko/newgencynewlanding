@@ -39,7 +39,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Large video assets (GitHub limit 100MB) — keep locally, host on CDN for production
-public/proyecto-a.mp4
-public/proyecto-b.mp4

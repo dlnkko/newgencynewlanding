@@ -46,7 +46,7 @@ function SlideCaption({ label, index }: { label: string; index: number }) {
       <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#a78bfa]/80">
         {String(index + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
       </span>
-      <p className="max-w-2xl bg-gradient-to-r from-[#f5f3ff] via-[#ddd6fe] to-[#7dd3fc] bg-clip-text font-display text-[clamp(1rem,3.5vw,1.35rem)] font-medium leading-snug tracking-[-0.02em] text-transparent [text-wrap:balance]">
+      <p className="max-w-xl bg-gradient-to-r from-[#f5f3ff] via-[#ddd6fe] to-[#7dd3fc] bg-clip-text font-display text-[clamp(0.9rem,2.8vw,1.15rem)] font-medium leading-snug tracking-[-0.02em] text-transparent [text-wrap:balance] sm:text-base">
         {label}
       </p>
     </div>
@@ -95,18 +95,18 @@ export function WorkCarousel() {
 
   if (reduceMotion) {
     return (
-      <motion.div className="relative mx-auto w-full max-w-5xl">
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-[#08080a]">
+      <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl">
+        <motion.div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/[0.08] bg-[#08080a] sm:rounded-2xl">
           <SlideContent slot={slot} showOverlayLabel={false} />
-        </div>
-        <motion.div className="mt-6">{caption}</motion.div>
+        </motion.div>
+        <motion.div className="mt-5 sm:mt-6">{caption}</motion.div>
       </motion.div>
     );
   }
 
   return (
-    <motion.div className="relative mx-auto w-full max-w-5xl">
-      <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/[0.06] bg-[#030305] shadow-[0_48px_120px_-48px_rgba(0,0,0,0.85)]">
+    <motion.div className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl">
+      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/[0.06] bg-[#030305] shadow-[0_32px_80px_-40px_rgba(0,0,0,0.75)] sm:rounded-2xl">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={`${slot.id}-${index}`}
@@ -143,7 +143,7 @@ export function WorkCarousel() {
         </button>
       </div>
 
-      <motion.div className="mt-6 flex max-w-full flex-col items-center gap-4 sm:mt-7 md:mt-9">
+      <motion.div className="mt-5 flex max-w-full flex-col items-center gap-3 sm:mt-6 md:mt-7">
         {caption}
         <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-2 px-1">
           {WORK_SLOTS.map((s, i) => (
