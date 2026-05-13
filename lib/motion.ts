@@ -5,11 +5,17 @@ export type ScrollDir = "up" | "down";
 /** Shared editorial easing — smooth on desktop and mobile. */
 export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** Re-triggers on scroll up & down; tuned for mobile viewports. */
+/** Mobile-friendly: triggers with less visible area. */
 export const SECTION_VIEWPORT = {
   once: false as const,
-  amount: 0.14,
-  margin: "0px 0px -36px 0px" as const,
+  amount: 0.1,
+  margin: "0px 0px -28px 0px" as const,
+};
+
+export const ROW_VIEWPORT = {
+  once: false as const,
+  amount: 0.15,
+  margin: "0px 0px -32px 0px" as const,
 };
 
 const yEnter = (dir: ScrollDir, amount: number) =>

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display } from "next/font/google";
+
+import { HERO_VIDEO_SRC } from "@/lib/constants";
 import "../styles/globals.css";
 
 const dmSans = DM_Sans({
@@ -38,6 +40,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${dmSans.variable} ${playfair.variable}`}>
+      <head>
+        <link
+          rel="preload"
+          href={HERO_VIDEO_SRC}
+          as="video"
+          type="video/mp4"
+          fetchPriority="high"
+        />
+      </head>
       <body className="min-h-screen overflow-x-clip bg-[#030303] text-zinc-100 antialiased font-sans">
         {children}
       </body>

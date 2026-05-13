@@ -3,7 +3,8 @@
 import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-import { HERO_HEADLINE_WORDS, HERO_SUBLINE, HERO_VIDEO_SRC } from "@/lib/constants";
+import { HERO_HEADLINE_WORDS, HERO_SUBLINE } from "@/lib/constants";
+import { HeroVideo } from "@/components/sections/HeroVideo";
 import { EASE } from "@/lib/motion";
 
 const wordVariants = {
@@ -35,19 +36,7 @@ export function Hero() {
       className="relative min-h-[100svh] w-full overflow-hidden bg-[#020202]"
       aria-label="Hero"
     >
-      {videoOk ? (
-        <video
-          className="pointer-events-none absolute inset-0 z-0 h-full w-full scale-[1.04] object-cover"
-          src={HERO_VIDEO_SRC}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onError={onVideoError}
-          aria-hidden
-        />
-      ) : null}
+      {videoOk ? <HeroVideo onError={onVideoError} /> : null}
 
       <motion.div
         className="absolute inset-0 z-[1] transition-opacity duration-700"
@@ -138,7 +127,7 @@ export function Hero() {
         {reduceMotion ? (
           <div className="mt-8 flex w-full justify-center sm:mt-10 md:mt-9">
             <a href="#apply" className={ctaClass}>
-              Apply to work with us ↗
+              Work with us ↗
             </a>
           </div>
         ) : (
@@ -154,7 +143,7 @@ export function Hero() {
               whileTap={{ scale: 0.98 }}
               className={`${ctaClass} shadow-[0_0_36px_rgba(139,124,246,0.3)]`}
             >
-              Apply to work with us ↗
+              Work with us ↗
             </motion.a>
           </motion.div>
         )}
