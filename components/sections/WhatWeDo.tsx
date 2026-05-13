@@ -16,7 +16,7 @@ export function WhatWeDo() {
   return (
     <section
       id="what-we-do"
-      className="relative border-t border-white/[0.05] bg-[#030303]"
+      className="relative border-t border-white/[0.05] bg-transparent"
     >
       <motion.div
         className="pointer-events-none absolute left-0 top-0 h-[1px] w-full bg-gradient-to-r from-transparent via-[#8b7cf6]/40 to-transparent"

@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/ui/Navbar";
+import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { Hero } from "@/components/sections/Hero";
 import { WhatWeDo } from "@/components/sections/WhatWeDo";
 import { SelectedWork } from "@/components/sections/SelectedWork";
@@ -10,9 +11,12 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <WhatWeDo />
-        <SelectedWork />
-        <ApplySection />
+        <div className="relative isolate bg-[#030303]">
+          <AmbientBackground />
+          <WhatWeDo />
+          <SelectedWork />
+          <ApplySection />
+        </div>
       </main>
     </div>
   );

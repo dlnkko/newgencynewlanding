@@ -13,7 +13,7 @@ import {
 
 export function SelectedWork() {
   return (
-    <section id="work" className="relative border-t border-white/[0.05] bg-[#050508]">
+    <section id="work" className="relative border-t border-white/[0.05] bg-transparent">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.4]"
         style={{

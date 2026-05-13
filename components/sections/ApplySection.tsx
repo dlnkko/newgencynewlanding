@@ -26,7 +26,7 @@ export function ApplySection() {
   return (
     <section
       id="apply"
-      className="relative overflow-hidden border-t border-white/[0.06] bg-[#030303] pb-[max(6rem,env(safe-area-inset-bottom,0px)+3.5rem)] pt-20 md:pb-36 md:pt-32"
+      className="relative overflow-hidden border-t border-white/[0.06] bg-transparent pb-[max(6rem,env(safe-area-inset-bottom,0px)+3.5rem)] pt-20 md:pb-36 md:pt-32"
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-90"
