@@ -111,9 +111,9 @@ export function Navbar() {
             className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-4 py-2.5 text-sm font-semibold text-[#0a0a0f] shadow-[0_0_28px_rgba(139,124,246,0.35)] sm:gap-2 sm:px-7 sm:py-3 sm:text-[15px] sm:hover:shadow-[0_0_40px_rgba(125,211,252,0.35)]"
             style={{ fontFamily: "var(--font-dm-sans)" }}
           >
-            <span className="sm:hidden">Apply</span>
+            <span className="sm:hidden">Hire us</span>
             <span className="hidden sm:inline">
-              Apply now <span className="text-[17px] leading-none">↗</span>
+              Hire us <span className="text-[17px] leading-none">↗</span>
             </span>
             <span className="text-[15px] leading-none sm:hidden">↗</span>
           </motion.a>
