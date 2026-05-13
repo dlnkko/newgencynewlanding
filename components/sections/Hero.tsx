@@ -21,7 +21,7 @@ const wordVariants = {
 };
 
 const ctaClass =
-  "inline-flex min-h-[48px] w-full max-w-md items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-7 py-3 font-sans text-[14px] font-semibold text-[#0a0a0f] sm:w-auto sm:px-9 sm:text-[15px]";
+  "inline-flex min-h-[44px] w-auto items-center justify-center gap-1.5 rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-6 py-2.5 font-sans text-[13px] font-semibold text-[#0a0a0f] sm:min-h-[48px] sm:gap-2 sm:px-9 sm:text-[15px]";
 
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -51,7 +51,7 @@ export function Hero() {
         aria-hidden
       />
 
-      <motion.div className="absolute inset-0 z-[2] bg-black/82" aria-hidden />
+      <motion.div className="absolute inset-0 z-[2] bg-black/72 md:bg-black/82" aria-hidden />
       <motion.div
         className="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_90%_70%_at_50%_120%,rgba(139,124,246,0.18),transparent_55%)]"
         aria-hidden
@@ -66,7 +66,7 @@ export function Hero() {
       />
 
       <motion.div
-        className="relative z-10 mx-auto flex min-h-[100svh] w-full min-w-0 max-w-[1200px] flex-col items-center justify-center px-4 pb-[max(6rem,env(safe-area-inset-bottom,0px)+4.5rem)] pt-[max(5.5rem,env(safe-area-inset-top,0px)+4rem)] text-center sm:px-10 md:px-16 md:pb-24 md:pt-28"
+        className="relative z-10 mx-auto flex min-h-[100svh] w-full min-w-0 max-w-[1200px] flex-col items-center justify-center px-4 pb-[max(5rem,env(safe-area-inset-bottom,0px)+3.5rem)] pt-[max(4.75rem,env(safe-area-inset-top,0px)+3.25rem)] text-center sm:px-10 md:px-16 md:pb-24 md:pt-28"
         initial={reduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: EASE }}
@@ -127,7 +127,7 @@ export function Hero() {
         {reduceMotion ? (
           <div className="mt-8 flex w-full justify-center sm:mt-10 md:mt-9">
             <a href="#apply" className={ctaClass}>
-              Work with us ↗
+              Work with us
             </a>
           </div>
         ) : (
@@ -143,7 +143,7 @@ export function Hero() {
               whileTap={{ scale: 0.98 }}
               className={`${ctaClass} shadow-[0_0_36px_rgba(139,124,246,0.3)]`}
             >
-              Work with us ↗
+              Work with us
             </motion.a>
           </motion.div>
         )}

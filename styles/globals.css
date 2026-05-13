@@ -328,3 +328,29 @@ a {
     height: 240px;
   }
 }
+
+/* Hide native video controls / iOS play overlay on hero background */
+.hero-video {
+  -webkit-appearance: none;
+  appearance: none;
+  object-fit: cover;
+}
+
+.hero-video::-webkit-media-controls {
+  display: none !important;
+}
+
+.hero-video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+.hero-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+}
