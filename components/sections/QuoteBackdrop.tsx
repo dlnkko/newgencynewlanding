@@ -8,8 +8,8 @@ type QuoteBackdropProps = {
 };
 
 /**
- * Quote background: video is always dimmed and locked under fixed opaque shields.
- * Shields live in the same stacking context as the video (iOS + desktop safe).
+ * Hero-style quote backdrop: full-opacity video + fixed dark veil in one layer stack.
+ * Veil sits above the video in the same context (prevents scroll flicker on iOS/desktop).
  */
 export function QuoteBackdrop({ src, onError }: QuoteBackdropProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -40,13 +40,8 @@ export function QuoteBackdrop({ src, onError }: QuoteBackdropProps) {
   }, []);
 
   useLayoutEffect(() => {
-    const el = videoRef.current;
-    if (!el) return;
-
     playAttempts.current = 0;
     void tryPlay();
-
-    return undefined;
   }, [tryPlay, src]);
 
   useEffect(() => {
@@ -57,7 +52,7 @@ export function QuoteBackdrop({ src, onError }: QuoteBackdropProps) {
       ([entry]) => {
         if (entry?.isIntersecting) void tryPlay();
       },
-      { threshold: 0, rootMargin: "240px 0px" },
+      { threshold: 0, rootMargin: "200px 0px" },
     );
 
     observer.observe(root);
@@ -69,6 +64,7 @@ export function QuoteBackdrop({ src, onError }: QuoteBackdropProps) {
       void tryPlay();
     };
 
+    document.addEventListener("touchstart", resume, { passive: true, once: true });
     window.addEventListener("pageshow", resume);
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") resume();
@@ -82,41 +78,39 @@ export function QuoteBackdrop({ src, onError }: QuoteBackdropProps) {
   return (
     <div
       ref={rootRef}
-      className="quote-backdrop absolute inset-0 z-0 overflow-hidden bg-[#030303]"
+      className="quote-backdrop absolute inset-0 overflow-hidden bg-[#020202]"
       aria-hidden
     >
-      <div className="quote-backdrop__media absolute inset-0 overflow-hidden">
-        <video
-          ref={videoRef}
-          src={src}
-          className="hero-video quote-backdrop__video pointer-events-none absolute inset-0 h-full w-full scale-[1.05] object-cover"
-          muted
-          autoPlay
-          loop
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          disableRemotePlayback
-          controls={false}
-          tabIndex={-1}
-          onError={onError}
-          aria-hidden
-        />
-      </div>
-
-      <div className="quote-backdrop__shield quote-backdrop__shield--base" />
-      <div className="quote-backdrop__shield quote-backdrop__shield--deep" />
-      <div
-        className="quote-backdrop__shield quote-backdrop__shield--tint pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: `
-            radial-gradient(ellipse 80% 60% at 20% 40%, rgba(139, 124, 246, 0.18), transparent 55%),
-            radial-gradient(ellipse 70% 50% at 80% 60%, rgba(125, 211, 252, 0.1), transparent 50%)
-          `,
-        }}
+      <video
+        ref={videoRef}
+        src={src}
+        className="hero-video quote-backdrop__video pointer-events-none absolute inset-0 z-0 h-full w-full scale-[1.04] object-cover"
+        muted
+        autoPlay
+        loop
+        playsInline
+        preload="auto"
+        disablePictureInPicture
+        disableRemotePlayback
+        controls={false}
+        tabIndex={-1}
+        onError={onError}
+        aria-hidden
       />
-      <div className="quote-backdrop__shield quote-backdrop__shield--vignette pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_120%,rgba(139,124,246,0.1),transparent_55%)]" />
-      <div className="quote-backdrop__shield quote-backdrop__shield--fade pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/60" />
+
+      <div className="quote-backdrop__veil absolute inset-0 z-[1] bg-black/74 md:bg-black/80" />
+      <div
+        className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_90%_70%_at_50%_120%,rgba(139,124,246,0.16),transparent_55%)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_50%_40%_at_90%_15%,rgba(125,211,252,0.07),transparent_45%)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/70 via-black/30 to-black/55"
+        aria-hidden
+      />
     </div>
   );
 }
