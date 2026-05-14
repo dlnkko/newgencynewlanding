@@ -354,3 +354,78 @@ a {
 .hero-video::-webkit-media-controls-overlay-play-button {
   display: none !important;
 }
+
+/* Quote section: video locked under permanent shields (mobile + desktop) */
+.quote-backdrop {
+  isolation: isolate;
+  contain: paint layout;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.quote-backdrop__media {
+  z-index: 0;
+  isolation: isolate;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.quote-backdrop__video {
+  opacity: 0.42 !important;
+  z-index: 0;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  filter: brightness(0.7) saturate(0.9);
+  transition: none !important;
+}
+
+.quote-backdrop__shield {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0, 0, 1px);
+  -webkit-transform: translate3d(0, 0, 1px);
+  transition: none !important;
+  animation: none !important;
+}
+
+.quote-backdrop__shield--base {
+  z-index: 2;
+  background: #040406;
+  opacity: 0.9;
+}
+
+.quote-backdrop__shield--deep {
+  z-index: 3;
+  background: #000;
+  opacity: 0.42;
+}
+
+.quote-backdrop__shield--tint {
+  z-index: 4;
+}
+
+.quote-backdrop__shield--vignette {
+  z-index: 5;
+}
+
+.quote-backdrop__shield--fade {
+  z-index: 6;
+}
+
+@media (min-width: 768px) {
+  .quote-backdrop__video {
+    opacity: 0.38 !important;
+    filter: brightness(0.66) saturate(0.88);
+  }
+
+  .quote-backdrop__shield--base {
+    opacity: 0.92;
+  }
+
+  .quote-backdrop__shield--deep {
+    opacity: 0.48;
+  }
+}
