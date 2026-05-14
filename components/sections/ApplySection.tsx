@@ -59,7 +59,7 @@ export function ApplySection() {
               type="button"
               className="mx-auto mt-12 inline-flex min-h-[56px] w-full max-w-md items-center justify-center rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-10 py-4 font-sans text-lg font-semibold text-[#0a0a0f] shadow-[0_0_48px_rgba(139,124,246,0.45)] sm:w-auto sm:px-14 sm:text-xl"
             >
-              Work with us
+              Book a Call
             </button>
           </div>
         ) : (
@@ -107,7 +107,7 @@ export function ApplySection() {
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 420, damping: 22 }}
               >
-                Work with us
+                Book a Call
               </motion.button>
             </motion.div>
           </motion.div>

@@ -127,7 +127,7 @@ export function Hero() {
         {reduceMotion ? (
           <div className="mt-8 flex w-full justify-center sm:mt-10 md:mt-9">
             <a href="#apply" className={ctaClass}>
-              Work with us
+              Book a Call
             </a>
           </div>
         ) : (
@@ -143,7 +143,7 @@ export function Hero() {
               whileTap={{ scale: 0.98 }}
               className={`${ctaClass} shadow-[0_0_36px_rgba(139,124,246,0.3)]`}
             >
-              Work with us
+              Book a Call
             </motion.a>
           </motion.div>
         )}

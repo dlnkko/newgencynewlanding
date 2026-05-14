@@ -1,7 +1,7 @@
 export const NAV_ITEMS = [
   { label: "What we do", href: "#what-we-do" },
   { label: "Work", href: "#work" },
-  { label: "Apply", href: "#apply" },
+  { label: "Book a Call", href: "#apply" },
 ] as const;
 
 /** Hero background reel — place file at `public/hero-reel.mp4` or change path. */
