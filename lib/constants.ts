@@ -60,6 +60,9 @@ export const INDUSTRY_QUOTE = {
 /** Background reel for the industry quote block — swap path in `public/`. */
 export const INDUSTRY_QUOTE_VIDEO_SRC = "/dana-white.mp4";
 
+/** Meta Pixel (Facebook) */
+export const META_PIXEL_ID = "2292788431248313";
+
 /** Typeform form id — https://ne77zwv3qx0.typeform.com/to/VpJQzq0d */
 export const TYPEFORM_FORM_ID = "VpJQzq0d";
 

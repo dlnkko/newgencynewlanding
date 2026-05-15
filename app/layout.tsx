@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 
+import { MetaPixel } from "@/components/analytics/MetaPixel";
 import { HERO_VIDEO_SRC } from "@/lib/constants";
 import "../styles/globals.css";
 
@@ -54,6 +55,7 @@ export default function RootLayout({
           type="video/mp4"
           fetchPriority="high"
         />
+        <MetaPixel />
       </head>
       <body className="min-h-screen overflow-x-clip bg-[#030303] text-zinc-100 antialiased font-sans">
         {children}
