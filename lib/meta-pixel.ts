@@ -3,11 +3,7 @@ import {
   META_PIXEL_SCHEDULE_PARAMS,
 } from "@/lib/constants";
 
-type FbqParams = {
-  content_name: string;
-  value: number;
-  currency: string;
-};
+type FbqParams = Record<string, string | number>;
 
 declare global {
   interface Window {
