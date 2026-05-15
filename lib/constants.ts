@@ -61,7 +61,7 @@ export const INDUSTRY_QUOTE = {
 export const INDUSTRY_QUOTE_VIDEO_SRC = "/dana-white.mp4";
 
 /** Meta Pixel (Facebook) */
-export const META_PIXEL_ID = "2292788431248313";
+export const META_PIXEL_ID = "815541597992994";
 
 export const META_PIXEL_LEAD_PARAMS = {
   content_name: "Formulario Newgency",
