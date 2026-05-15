@@ -2,13 +2,16 @@
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-import { TypeformEmbed } from "@/components/ui/TypeformEmbed";
+import { CalendlyEmbed } from "@/components/ui/CalendlyEmbed";
 import { SectionReveal } from "@/components/ui/SectionReveal";
-import { SECTION_VIEWPORT, directionalStaggerItem } from "@/lib/motion";
+import { CALENDLY_EMBED_URL } from "@/lib/constants";
+import { directionalStaggerItem } from "@/lib/motion";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
-const APPLY_COPY =
-  "The new era of content is here. Be one of the first to own it." as const;
+const SCHEDULE_COPY = {
+  title: "Book your call",
+  body: "Pick a time that works for you. We'll confirm the details by email.",
+} as const;
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -20,14 +23,14 @@ const container: Variants = {
 
 const rise = directionalStaggerItem;
 
-export function ApplySection() {
+export function ScheduleSection() {
   const reduceMotion = useReducedMotion();
   const scrollDir = useScrollDirection();
 
   return (
     <section
-      id="apply"
-      className="relative overflow-hidden border-t border-white/[0.06] bg-transparent pb-[max(6rem,env(safe-area-inset-bottom,0px)+3.5rem)] pt-20 md:pb-36 md:pt-32"
+      id="schedule"
+      className="relative overflow-hidden border-t border-white/[0.06] bg-transparent pb-[max(6rem,env(safe-area-inset-bottom,0px)+3.5rem)] pt-16 md:pb-36 md:pt-24"
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-90"
@@ -48,19 +51,16 @@ export function ApplySection() {
       <SectionReveal className="relative mx-auto max-w-[920px] min-w-0 px-4 sm:px-8 md:px-12">
         {reduceMotion ? (
           <div className="py-4">
-            <h2 className="font-display text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
+            <h1 className="font-display text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
               <span className="bg-gradient-to-r from-[#f5f3ff] via-[#c4b5fd] to-[#7dd3fc] bg-clip-text text-transparent">
-                Apply to work with us
+                {SCHEDULE_COPY.title}
               </span>
-            </h2>
+            </h1>
             <p className="mx-auto mt-10 max-w-[36rem] text-center font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/70">
-              {APPLY_COPY}
+              {SCHEDULE_COPY.body}
             </p>
-            <div
-              id="typeform-embed"
-              className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3"
-            >
-              <TypeformEmbed className="w-full" />
+            <div className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3">
+              <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </div>
           </div>
         ) : (
@@ -69,8 +69,7 @@ export function ApplySection() {
             custom={scrollDir}
             variants={container}
             initial="hidden"
-            whileInView="visible"
-            viewport={SECTION_VIEWPORT}
+            animate="visible"
           >
             <motion.div variants={rise} className="relative">
               <motion.span
@@ -83,26 +82,25 @@ export function ApplySection() {
                 transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
                 aria-hidden
               />
-              <h2 className="font-display relative text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
+              <h1 className="font-display relative text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
                 <span className="bg-gradient-to-r from-[#f5f3ff] via-[#c4b5fd] to-[#7dd3fc] bg-clip-text text-transparent">
-                  Apply to work with us
+                  {SCHEDULE_COPY.title}
                 </span>
-              </h2>
+              </h1>
             </motion.div>
 
             <motion.p
               variants={rise}
               className="mx-auto mt-10 max-w-[36rem] text-center font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/72 [text-wrap:balance]"
             >
-              {APPLY_COPY}
+              {SCHEDULE_COPY.body}
             </motion.p>
 
             <motion.div
-              id="typeform-embed"
               variants={rise}
               className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3"
             >
-              <TypeformEmbed className="w-full" />
+              <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </motion.div>
           </motion.div>
         )}

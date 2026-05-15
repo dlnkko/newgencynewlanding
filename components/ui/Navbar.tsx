@@ -86,7 +86,7 @@ export function Navbar() {
             transition={{ duration: 0.55, ease: EASE }}
           >
             <Link
-              href="#"
+              href="/"
               aria-label="Newgency home"
               className="min-w-0 shrink-0 select-none transition-opacity hover:opacity-90"
               onClick={closeMenu}
@@ -140,7 +140,7 @@ export function Navbar() {
             </button>
 
             <motion.a
-              href="#apply"
+              href="/#apply"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               className="inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-4 text-[13px] font-semibold text-[#0a0a0f] shadow-[0_0_24px_rgba(139,124,246,0.3)] sm:h-11 sm:gap-1.5 sm:px-6 sm:text-sm md:min-h-[44px] md:px-7 md:py-3 md:text-[15px] md:shadow-[0_0_28px_rgba(139,124,246,0.35)] md:hover:shadow-[0_0_40px_rgba(125,211,252,0.35)]"

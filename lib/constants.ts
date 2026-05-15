@@ -1,7 +1,7 @@
 export const NAV_ITEMS = [
-  { label: "What we do", href: "#what-we-do" },
-  { label: "Work", href: "#work" },
-  { label: "Book a Call", href: "#apply" },
+  { label: "What we do", href: "/#what-we-do" },
+  { label: "Work", href: "/#work" },
+  { label: "Book a Call", href: "/#apply" },
 ] as const;
 
 /** Hero background reel — place file at `public/hero-reel.mp4` or change path. */
@@ -60,8 +60,16 @@ export const INDUSTRY_QUOTE = {
 /** Background reel for the industry quote block — swap path in `public/`. */
 export const INDUSTRY_QUOTE_VIDEO_SRC = "/dana-white.mp4";
 
-/** Typeform live embed id — Book a Call popup */
-export const TYPEFORM_LIVE_ID = "01KRP32BATBKMF9ZKBGX1AEMVA";
+/** Typeform form id — https://ne77zwv3qx0.typeform.com/to/VpJQzq0d */
+export const TYPEFORM_FORM_ID = "VpJQzq0d";
+
+/** Calendly event URL — https://calendly.com/founder-newgency/30min */
+export const CALENDLY_EMBED_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_URL ??
+  "https://calendly.com/founder-newgency/30min";
+
+/** Schedule page — opened when Typeform end-screen CTA is clicked */
+export const SCHEDULE_PATH = "/schedule" as const;
 
 export type WorkSlot = {
   id: string;
