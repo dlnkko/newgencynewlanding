@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { getCalendlyEmbedUrl } from "@/lib/calendly";
+import { trackMetaSchedule } from "@/lib/meta-pixel";
 
 const CALENDLY_SCRIPT_SRC =
   "https://assets.calendly.com/assets/external/widget.js";
@@ -22,6 +23,17 @@ export function CalendlyEmbed({ url, className = "" }: CalendlyEmbedProps) {
     script.src = CALENDLY_SCRIPT_SRC;
     script.async = true;
     document.head.appendChild(script);
+  }, []);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.event === "calendly.event_scheduled") {
+        trackMetaSchedule();
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (

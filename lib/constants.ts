@@ -63,6 +63,18 @@ export const INDUSTRY_QUOTE_VIDEO_SRC = "/dana-white.mp4";
 /** Meta Pixel (Facebook) */
 export const META_PIXEL_ID = "2292788431248313";
 
+export const META_PIXEL_LEAD_PARAMS = {
+  content_name: "Formulario Newgency",
+  value: 1500,
+  currency: "USD",
+} as const;
+
+export const META_PIXEL_SCHEDULE_PARAMS = {
+  content_name: "Discovery Call Newgency",
+  value: 1500,
+  currency: "USD",
+} as const;
+
 /** Typeform form id — https://ne77zwv3qx0.typeform.com/to/VpJQzq0d */
 export const TYPEFORM_FORM_ID = "VpJQzq0d";
 

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Widget } from "@typeform/embed-react";
 
 import { SCHEDULE_PATH, TYPEFORM_FORM_ID } from "@/lib/constants";
+import { trackMetaLead } from "@/lib/meta-pixel";
 
 type TypeformEmbedProps = {
   className?: string;
@@ -17,12 +18,17 @@ export function TypeformEmbed({ className = "" }: TypeformEmbedProps) {
     router.push(SCHEDULE_PATH);
   }, [router]);
 
+  const handleSubmit = useCallback(() => {
+    trackMetaLead();
+  }, []);
+
   return (
     <Widget
       id={TYPEFORM_FORM_ID}
       autoResize="480,800"
       className={className}
       style={{ minHeight: 480, width: "100%" }}
+      onSubmit={handleSubmit}
       onEndingButtonClick={openSchedule}
     />
   );
