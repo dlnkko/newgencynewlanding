@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { BookCallButton } from "@/components/ui/BookCallButton";
-import { TypeformScript } from "@/components/ui/TypeformScript";
+import { TypeformLiveModal } from "@/components/ui/TypeformLiveModal";
 import { SectionReveal } from "@/components/ui/SectionReveal";
 import { SECTION_VIEWPORT, directionalStaggerItem } from "@/lib/motion";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
@@ -24,13 +25,16 @@ const rise = directionalStaggerItem;
 export function ApplySection() {
   const reduceMotion = useReducedMotion();
   const scrollDir = useScrollDirection();
+  const [formOpen, setFormOpen] = useState(false);
+
+  const openForm = () => setFormOpen(true);
 
   return (
     <section
       id="apply"
       className="relative overflow-hidden border-t border-white/[0.06] bg-transparent pb-[max(6rem,env(safe-area-inset-bottom,0px)+3.5rem)] pt-20 md:pb-36 md:pt-32"
     >
-      <TypeformScript />
+      <TypeformLiveModal open={formOpen} onClose={() => setFormOpen(false)} />
       <div
         className="pointer-events-none absolute inset-0 opacity-90"
         aria-hidden
@@ -58,7 +62,10 @@ export function ApplySection() {
             <p className="mx-auto mt-10 max-w-[36rem] font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/70">
               {APPLY_COPY}
             </p>
-            <BookCallButton className="mx-auto mt-12 inline-flex min-h-[56px] w-full max-w-md items-center justify-center rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-10 py-4 font-sans text-lg font-semibold text-[#0a0a0f] shadow-[0_0_48px_rgba(139,124,246,0.45)] sm:w-auto sm:px-14 sm:text-xl" />
+            <BookCallButton
+              className="mx-auto mt-12 inline-flex min-h-[56px] w-full max-w-md items-center justify-center rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-10 py-4 font-sans text-lg font-semibold text-[#0a0a0f] shadow-[0_0_48px_rgba(139,124,246,0.45)] sm:w-auto sm:px-14 sm:text-xl"
+              onClick={openForm}
+            />
           </div>
         ) : (
           <motion.div
@@ -98,6 +105,7 @@ export function ApplySection() {
               <BookCallButton
                 animated
                 className="inline-flex min-h-[56px] w-full max-w-md touch-manipulation items-center justify-center rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-10 py-4 font-sans text-lg font-semibold text-[#0a0a0f] shadow-[0_0_48px_rgba(139,124,246,0.45)] sm:w-auto sm:min-w-[280px] sm:px-14 sm:text-xl"
+                onClick={openForm}
               />
             </motion.div>
           </motion.div>
