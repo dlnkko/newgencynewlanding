@@ -60,6 +60,9 @@ export const INDUSTRY_QUOTE = {
 /** Background reel for the industry quote block — swap path in `public/`. */
 export const INDUSTRY_QUOTE_VIDEO_SRC = "/dana-white.mp4";
 
+/** Typeform live embed id — Book a Call popup */
+export const TYPEFORM_LIVE_ID = "01KRP32BATBKMF9ZKBGX1AEMVA";
+
 export type WorkSlot = {
   id: string;
   label: string;

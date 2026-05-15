@@ -2,6 +2,8 @@
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
+import { BookCallButton } from "@/components/ui/BookCallButton";
+import { TypeformScript } from "@/components/ui/TypeformScript";
 import { SectionReveal } from "@/components/ui/SectionReveal";
 import { SECTION_VIEWPORT, directionalStaggerItem } from "@/lib/motion";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
@@ -28,6 +30,7 @@ export function ApplySection() {
       id="apply"
       className="relative overflow-hidden border-t border-white/[0.06] bg-transparent pb-[max(6rem,env(safe-area-inset-bottom,0px)+3.5rem)] pt-20 md:pb-36 md:pt-32"
     >
+      <TypeformScript />
       <div
         className="pointer-events-none absolute inset-0 opacity-90"
         aria-hidden
@@ -55,12 +58,7 @@ export function ApplySection() {
             <p className="mx-auto mt-10 max-w-[36rem] font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/70">
               {APPLY_COPY}
             </p>
-            <button
-              type="button"
-              className="mx-auto mt-12 inline-flex min-h-[56px] w-full max-w-md items-center justify-center rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-10 py-4 font-sans text-lg font-semibold text-[#0a0a0f] shadow-[0_0_48px_rgba(139,124,246,0.45)] sm:w-auto sm:px-14 sm:text-xl"
-            >
-              Book a Call
-            </button>
+            <BookCallButton className="mx-auto mt-12 inline-flex min-h-[56px] w-full max-w-md items-center justify-center rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-10 py-4 font-sans text-lg font-semibold text-[#0a0a0f] shadow-[0_0_48px_rgba(139,124,246,0.45)] sm:w-auto sm:px-14 sm:text-xl" />
           </div>
         ) : (
           <motion.div
@@ -97,18 +95,10 @@ export function ApplySection() {
             </motion.p>
 
             <motion.div variants={rise} className="mt-12 flex justify-center">
-              <motion.button
-                type="button"
+              <BookCallButton
+                animated
                 className="inline-flex min-h-[56px] w-full max-w-md touch-manipulation items-center justify-center rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-10 py-4 font-sans text-lg font-semibold text-[#0a0a0f] shadow-[0_0_48px_rgba(139,124,246,0.45)] sm:w-auto sm:min-w-[280px] sm:px-14 sm:text-xl"
-                whileHover={{
-                  scale: 1.04,
-                  boxShadow: "0 0 64px rgba(125,211,252,0.5)",
-                }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 420, damping: 22 }}
-              >
-                Book a Call
-              </motion.button>
+              />
             </motion.div>
           </motion.div>
         )}
