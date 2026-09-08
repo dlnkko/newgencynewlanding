@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-import { HERO_HEADLINE_WORDS, HERO_SUBLINE } from "@/lib/constants";
+import { HERO_HEADLINE_WORDS, HERO_HIGHLIGHT_WORD, HERO_SUBLINE } from "@/lib/constants";
 import { HeroVideo } from "@/components/sections/HeroVideo";
 import { EASE } from "@/lib/motion";
 
@@ -73,11 +73,12 @@ export function Hero() {
       >
         <h1 className="font-display m-0 flex w-full min-w-0 max-w-[min(100%,42rem)] flex-wrap items-baseline justify-center gap-x-[0.22em] gap-y-1.5 text-[clamp(1.55rem,6.2vw,4rem)] font-extrabold leading-[1.08] tracking-[-0.045em] [overflow-wrap:anywhere] sm:max-w-[min(100%,48rem)] sm:gap-x-[0.26em] md:gap-x-[0.3em] md:gap-y-2">
           {HERO_HEADLINE_WORDS.map((word, i) => {
-            const isFuture = word.toLowerCase() === "future";
+            const isHighlight =
+              word.replace(/[.,]/g, "").toLowerCase() === HERO_HIGHLIGHT_WORD;
             const content = (
               <span
                 className={
-                  isFuture
+                  isHighlight
                     ? "inline-block bg-gradient-to-r from-[#e9d5ff] via-[#a78bfa] to-[#7dd3fc] bg-clip-text text-transparent"
                     : "inline-block text-white/[0.94]"
                 }

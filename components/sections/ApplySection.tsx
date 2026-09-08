@@ -2,13 +2,14 @@
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-import { TypeformEmbed } from "@/components/ui/TypeformEmbed";
+import { CalendlyEmbed } from "@/components/ui/CalendlyEmbed";
 import { SectionReveal } from "@/components/ui/SectionReveal";
+import { CALENDLY_EMBED_URL } from "@/lib/constants";
 import { SECTION_VIEWPORT, directionalStaggerItem } from "@/lib/motion";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 const APPLY_COPY =
-  "The new era of content is here. Be one of the first to own it." as const;
+  "Pick a time. We'll talk about your business and what an AI commercial can do for you." as const;
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -50,17 +51,17 @@ export function ApplySection() {
           <div className="py-4">
             <h2 className="font-display text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
               <span className="bg-gradient-to-r from-[#f5f3ff] via-[#c4b5fd] to-[#7dd3fc] bg-clip-text text-transparent">
-                Apply to work with us
+                Book a call
               </span>
             </h2>
             <p className="mx-auto mt-10 max-w-[36rem] text-center font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/70">
               {APPLY_COPY}
             </p>
             <div
-              id="typeform-embed"
+              id="calendly-embed"
               className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3"
             >
-              <TypeformEmbed className="w-full" />
+              <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </div>
           </div>
         ) : (
@@ -85,7 +86,7 @@ export function ApplySection() {
               />
               <h2 className="font-display relative text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
                 <span className="bg-gradient-to-r from-[#f5f3ff] via-[#c4b5fd] to-[#7dd3fc] bg-clip-text text-transparent">
-                  Apply to work with us
+                  Book a call
                 </span>
               </h2>
             </motion.div>
@@ -98,11 +99,11 @@ export function ApplySection() {
             </motion.p>
 
             <motion.div
-              id="typeform-embed"
+              id="calendly-embed"
               variants={rise}
               className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3"
             >
-              <TypeformEmbed className="w-full" />
+              <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </motion.div>
           </motion.div>
         )}

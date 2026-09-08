@@ -18,17 +18,17 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Newgency",
+  title: "Newgency — AI commercials for local businesses",
   description:
-    "Newgency creates hyperrealistic and animated advertising videos using AI to help businesses connect, engage and convert.",
+    "Cinematic AI commercials for gyms, clinics, restaurants, and local shops. National look. Neighborhood results.",
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png", sizes: "32x32" }],
     apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Newgency",
+    title: "Newgency — AI commercials for local businesses",
     description:
-      "Smarter videos. Stronger results. AI-powered ad creatives built to convert.",
+      "Cinematic AI commercials for gyms, clinics, restaurants, and local shops.",
   },
 };
 

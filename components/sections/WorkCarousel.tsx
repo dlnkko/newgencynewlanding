@@ -1,42 +1,21 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { WORK_SLOTS } from "@/lib/constants";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { CarouselVideo } from "@/components/ui/CarouselVideo";
 import { EASE } from "@/lib/motion";
 
 const N = WORK_SLOTS.length;
 
-const captionVariants: Variants = {
-  enter: { opacity: 0, y: 10 },
-  center: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.3, ease: EASE } },
-};
-
-function SlideCaption({ label, index }: { label: string; index: number }) {
-  return (
-    <div className="flex w-full flex-col items-center gap-1 px-2 text-center">
-      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#a78bfa]/80">
-        {String(index + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
-      </span>
-      <p className="max-w-xl bg-gradient-to-r from-[#f5f3ff] via-[#ddd6fe] to-[#7dd3fc] bg-clip-text font-display text-[clamp(0.9rem,2.8vw,1.15rem)] font-medium leading-snug tracking-[-0.02em] text-transparent [text-wrap:balance] sm:text-base">
-        {label}
-      </p>
-    </div>
-  );
-}
-
 export function WorkCarousel() {
   const reduceMotion = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const dragStartX = useRef<number | null>(null);
   const [index, setIndex] = useState(0);
   const [videosEnabled, setVideosEnabled] = useState(false);
   const slot = WORK_SLOTS[index]!;
@@ -66,30 +45,65 @@ export function WorkCarousel() {
   const goNext = useCallback(() => goTo(index + 1), [goTo, index]);
   const goPrev = useCallback(() => goTo(index - 1), [goTo, index]);
 
-  const caption = reduceMotion ? (
-    <SlideCaption label={slot.label} index={index} />
-  ) : (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={`${slot.id}-${index}`}
-        variants={captionVariants}
-        initial="enter"
-        animate="center"
-        exit="exit"
-        className="w-full"
-      >
-        <SlideCaption label={slot.label} index={index} />
-      </motion.div>
-    </AnimatePresence>
-  );
+  useEffect(() => {
+    const thumb = railRef.current?.querySelector<HTMLElement>(
+      `[data-work-thumb="${index}"]`,
+    );
+    thumb?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [index, reduceMotion]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const root = rootRef.current;
+      if (!root) return;
+      const inView = root.getBoundingClientRect().top < window.innerHeight;
+      if (!inView) return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goNext();
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goPrev();
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [goNext, goPrev]);
+
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    dragStartX.current = e.clientX;
+  };
+
+  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
+    if (dragStartX.current == null) return;
+    const dx = e.clientX - dragStartX.current;
+    dragStartX.current = null;
+    if (Math.abs(dx) < 56) return;
+    if (dx < 0) goNext();
+    else goPrev();
+  };
+
+  const isNearby = (i: number) => {
+    const dist = Math.min(Math.abs(i - index), N - Math.abs(i - index));
+    return dist <= 1;
+  };
 
   return (
-    <div
-      ref={rootRef}
-      className="relative mx-auto w-full max-w-[min(100%,20rem)] sm:max-w-md md:max-w-xl lg:max-w-2xl"
-      data-carousel-root
-    >
-      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-white/[0.06] bg-[#030305] shadow-[0_32px_80px_-40px_rgba(0,0,0,0.75)] sm:rounded-2xl">
+    <div ref={rootRef} className="relative mx-auto w-full max-w-5xl">
+      <div
+        className="relative aspect-video w-full cursor-grab overflow-hidden rounded-xl border border-white/[0.08] bg-[#030305] shadow-[0_40px_100px_-48px_rgba(0,0,0,0.8)] active:cursor-grabbing sm:rounded-2xl"
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => {
+          dragStartX.current = null;
+        }}
+      >
         {!videosEnabled ? (
           <div
             className="absolute inset-0 z-20 bg-[#030305]"
@@ -102,93 +116,105 @@ export function WorkCarousel() {
         ) : null}
 
         {WORK_SLOTS.map((s, i) =>
-          s.videoSrc ? (
+          s.videoSrc && videosEnabled && (i === index || isNearby(i)) ? (
             <CarouselVideo
               key={s.id}
               src={s.videoSrc}
               isActive={i === index}
               enabled={videosEnabled}
+              preload={i === index ? "auto" : "metadata"}
             />
-          ) : (
-            <PlaceholderSlide
-              key={s.id}
-              label={s.label}
-              isActive={i === index}
-            />
-          ),
+          ) : null,
         )}
+
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/25 to-transparent px-3 pb-3 pt-14 sm:px-6 sm:pb-5 sm:pt-16"
+          aria-hidden
+        />
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex items-end justify-between gap-3 px-3 pb-3 sm:px-6 sm:pb-5">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={slot.id}
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+              transition={{ duration: 0.45, ease: EASE }}
+              className="flex min-w-0 items-end gap-3 sm:gap-4"
+            >
+              <BrandLogo
+                src={slot.logoSrc}
+                alt={slot.label}
+                active
+                onLight={slot.logoOnLight}
+                className="h-8 w-[7.5rem] sm:h-10 sm:w-[10rem]"
+              />
+              <p className="hidden font-mono text-[10px] uppercase tracking-[0.22em] text-white/40 sm:block">
+                {String(index + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         <button
           type="button"
           onClick={goPrev}
-          className="absolute left-2 top-1/2 z-30 flex size-11 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/75 backdrop-blur-md transition hover:border-white/25 hover:bg-black/65 hover:text-white sm:left-3 md:left-5"
-          aria-label="Previous"
+          className="absolute left-1.5 top-1/2 z-30 flex size-10 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/80 backdrop-blur-md transition duration-300 hover:border-white/25 hover:bg-black/65 hover:text-white sm:left-3 md:left-4"
+          aria-label="Previous commercial"
         >
           <ChevronLeft className="size-5" strokeWidth={1.5} />
         </button>
         <button
           type="button"
           onClick={goNext}
-          className="absolute right-2 top-1/2 z-30 flex size-11 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/75 backdrop-blur-md transition hover:border-white/25 hover:bg-black/65 hover:text-white sm:right-3 md:right-5"
-          aria-label="Next"
+          className="absolute right-1.5 top-1/2 z-30 flex size-10 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/80 backdrop-blur-md transition duration-300 hover:border-white/25 hover:bg-black/65 hover:text-white sm:right-3 md:right-4"
+          aria-label="Next commercial"
         >
           <ChevronRight className="size-5" strokeWidth={1.5} />
         </button>
       </div>
 
-      <div className="mt-5 flex max-w-full flex-col items-center gap-3 sm:mt-6 md:mt-7">
-        {caption}
-        <motion.div className="flex flex-wrap justify-center gap-x-1.5 gap-y-2 px-1">
-          {WORK_SLOTS.map((s, i) => (
-            <button
+      <div
+        ref={railRef}
+        className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-2.5 md:grid-cols-5"
+      >
+        {WORK_SLOTS.map((s, i) => {
+          const active = i === index;
+          return (
+            <motion.button
               key={s.id}
               type="button"
+              data-work-thumb={i}
               onClick={() => goTo(i)}
-              className="flex h-9 min-w-9 items-center justify-center rounded-full p-2"
               aria-label={s.label}
-              aria-current={i === index}
+              aria-current={active}
+              whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+              transition={{ duration: 0.35, ease: EASE }}
+              className={`relative flex min-h-[52px] items-center justify-center overflow-hidden rounded-xl border bg-[#07070c] px-3 py-2.5 sm:min-h-[58px] sm:px-3.5 ${
+                active
+                  ? "border-[#a78bfa]/65 shadow-[0_0_24px_rgba(139,124,246,0.28)]"
+                  : "border-white/[0.08] opacity-70 hover:opacity-100 hover:border-white/20"
+              }`}
             >
-              {i === index ? (
+              <BrandLogo
+                src={s.logoSrc}
+                alt=""
+                active={active}
+                onLight={s.logoOnLight}
+                className="h-7 w-[6.75rem] sm:h-8 sm:w-[7.5rem]"
+              />
+              {active ? (
                 <motion.span
-                  layoutId="work-carousel-dot"
-                  className="h-2 w-8 rounded-full bg-gradient-to-r from-[#a78bfa] to-[#7dd3fc]"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  layoutId="work-active-bar"
+                  className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#a78bfa] to-[#7dd3fc]"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 />
-              ) : (
-                <span className="h-1.5 w-1.5 rounded-full bg-white/20 transition-colors hover:bg-white/45" />
-              )}
-            </button>
-          ))}
-        </motion.div>
+              ) : null}
+            </motion.button>
+          );
+        })}
       </div>
-    </div>
-  );
-}
-
-function PlaceholderSlide({
-  label,
-  isActive,
-}: {
-  label: string;
-  isActive: boolean;
-}) {
-  return (
-    <div
-      className={`absolute inset-0 flex items-center justify-center bg-[#06060a] transition-opacity duration-300 ${
-        isActive ? "z-10 opacity-100" : "z-0 opacity-0"
-      }`}
-      aria-hidden={!isActive}
-    >
-      <div
-        className="absolute inset-0 opacity-[0.65]"
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse 70% 55% at 25% 35%, rgba(139,124,246,0.2), transparent 50%), radial-gradient(ellipse 60% 50% at 75% 65%, rgba(125,211,252,0.12), transparent 50%)",
-        }}
-      />
-      <span className="relative font-mono text-[10px] uppercase tracking-[0.28em] text-white/35">
-        {label}
-      </span>
     </div>
   );
 }

@@ -5,11 +5,18 @@ import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 type CarouselVideoProps = {
   src: string;
   isActive: boolean;
-  /** When false, video is not mounted/loaded yet. */
   enabled: boolean;
+  preload?: "none" | "metadata" | "auto";
+  className?: string;
 };
 
-export function CarouselVideo({ src, isActive, enabled }: CarouselVideoProps) {
+export function CarouselVideo({
+  src,
+  isActive,
+  enabled,
+  preload = "metadata",
+  className = "",
+}: CarouselVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playAttempts = useRef(0);
 
@@ -70,14 +77,14 @@ export function CarouselVideo({ src, isActive, enabled }: CarouselVideoProps) {
   return (
     <video
       ref={videoRef}
-      className={`hero-video absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+      className={`hero-video absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
         isActive ? "z-10 opacity-100" : "z-0 opacity-0"
-      }`}
+      } ${className}`.trim()}
       src={src}
       muted
       loop
       playsInline
-      preload="auto"
+      preload={isActive ? "auto" : preload}
       disablePictureInPicture
       controls={false}
       tabIndex={-1}

@@ -23,7 +23,7 @@ export function SelectedWork() {
         aria-hidden
       />
 
-      <SectionReveal className="relative mx-auto max-w-[1200px] px-4 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-20 md:px-16 md:pb-32 md:pt-28 lg:px-20">
+      <SectionReveal className="relative mx-auto max-w-[1200px] px-4 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-20 md:px-12 md:pb-32 md:pt-28 lg:px-16">
         <DirectionalInView
           className="mx-auto min-w-0 max-w-2xl text-center"
           variants={staggerContainer}
@@ -38,13 +38,13 @@ export function SelectedWork() {
             variants={directionalStaggerItem}
             className="font-display mt-4 text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold tracking-[-0.035em] text-white"
           >
-            Proof, not promises.
+            Work for local businesses.
           </motion.h2>
           <motion.p
             variants={directionalStaggerItem}
             className="mx-auto mt-4 max-w-md px-1 font-sans text-sm leading-relaxed text-white/45 md:text-[15px]"
           >
-            Swipe or use arrows.
+            Pick a logo. Swipe or use the arrows to watch.
           </motion.p>
         </DirectionalInView>
 
