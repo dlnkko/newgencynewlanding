@@ -4,12 +4,9 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { CalendlyEmbed } from "@/components/ui/CalendlyEmbed";
 import { SectionReveal } from "@/components/ui/SectionReveal";
-import { CALENDLY_EMBED_URL } from "@/lib/constants";
+import { APPLY_COPY, CALENDLY_EMBED_URL } from "@/lib/constants";
 import { SECTION_VIEWPORT, directionalStaggerItem } from "@/lib/motion";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
-
-const APPLY_COPY =
-  "Pick a time. We'll talk about your business and what an AI commercial can do for you." as const;
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -46,20 +43,20 @@ export function ApplySection() {
         aria-hidden
       />
 
-      <SectionReveal className="relative mx-auto max-w-[920px] min-w-0 px-4 sm:px-8 md:px-12">
+      <SectionReveal className="relative mx-auto max-w-[1040px] min-w-0 px-4 sm:px-8 md:px-12">
         {reduceMotion ? (
           <div className="py-4">
-            <h2 className="font-display text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
+            <h2 className="font-display text-center text-[clamp(2.1rem,7vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.045em] [text-wrap:balance]">
               <span className="bg-gradient-to-r from-[#f5f3ff] via-[#c4b5fd] to-[#7dd3fc] bg-clip-text text-transparent">
-                Book a call
+                {APPLY_COPY.heading}
               </span>
             </h2>
             <p className="mx-auto mt-10 max-w-[36rem] text-center font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/70">
-              {APPLY_COPY}
+              {APPLY_COPY.body}
             </p>
             <div
               id="calendly-embed"
-              className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3"
+              className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f] shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
             >
               <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </div>
@@ -84,9 +81,9 @@ export function ApplySection() {
                 transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
                 aria-hidden
               />
-              <h2 className="font-display relative text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
+              <h2 className="font-display relative text-center text-[clamp(2.1rem,7vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.045em] [text-wrap:balance]">
                 <span className="bg-gradient-to-r from-[#f5f3ff] via-[#c4b5fd] to-[#7dd3fc] bg-clip-text text-transparent">
-                  Book a call
+                  {APPLY_COPY.heading}
                 </span>
               </h2>
             </motion.div>
@@ -95,13 +92,13 @@ export function ApplySection() {
               variants={rise}
               className="mx-auto mt-10 max-w-[36rem] text-center font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/72 [text-wrap:balance]"
             >
-              {APPLY_COPY}
+              {APPLY_COPY.body}
             </motion.p>
 
             <motion.div
               id="calendly-embed"
               variants={rise}
-              className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3"
+              className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f] shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
             >
               <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </motion.div>

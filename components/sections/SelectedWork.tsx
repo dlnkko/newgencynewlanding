@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 
+import { WORK_COPY } from "@/lib/constants";
 import { WorkCarousel } from "@/components/sections/WorkCarousel";
 import { DirectionalInView } from "@/components/ui/DirectionalInView";
 import { SectionReveal } from "@/components/ui/SectionReveal";
@@ -32,19 +33,19 @@ export function SelectedWork() {
             variants={directionalStaggerItem}
             className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-[#a78bfa]/90"
           >
-            Selected work
+            {WORK_COPY.eyebrow}
           </motion.p>
           <motion.h2
             variants={directionalStaggerItem}
-            className="font-display mt-4 text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold tracking-[-0.035em] text-white"
+            className="font-display mt-4 text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.18] tracking-[-0.035em] text-white [text-wrap:balance]"
           >
-            Work for local businesses.
+            {WORK_COPY.heading}
           </motion.h2>
           <motion.p
             variants={directionalStaggerItem}
             className="mx-auto mt-4 max-w-md px-1 font-sans text-sm leading-relaxed text-white/45 md:text-[15px]"
           >
-            Pick a logo. Swipe or use the arrows to watch.
+            {WORK_COPY.subline}
           </motion.p>
         </DirectionalInView>
 

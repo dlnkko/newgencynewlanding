@@ -9,7 +9,7 @@ import { directionalStaggerItem } from "@/lib/motion";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 const SCHEDULE_COPY = {
-  title: "Book your call",
+  title: "Book a Creative Call",
   body: "Pick a time that works for you. We'll confirm the details by email.",
 } as const;
 
@@ -48,7 +48,7 @@ export function ScheduleSection() {
         aria-hidden
       />
 
-      <SectionReveal className="relative mx-auto max-w-[920px] min-w-0 px-4 sm:px-8 md:px-12">
+      <SectionReveal className="relative mx-auto max-w-[1040px] min-w-0 px-4 sm:px-8 md:px-12">
         {reduceMotion ? (
           <div className="py-4">
             <h1 className="font-display text-center text-[clamp(2.5rem,8vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.045em]">
@@ -59,7 +59,7 @@ export function ScheduleSection() {
             <p className="mx-auto mt-10 max-w-[36rem] text-center font-sans text-[clamp(1.05rem,3.2vw,1.35rem)] leading-relaxed text-white/70">
               {SCHEDULE_COPY.body}
             </p>
-            <div className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3">
+            <div className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f] shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
               <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </div>
           </div>
@@ -98,7 +98,7 @@ export function ScheduleSection() {
 
             <motion.div
               variants={rise}
-              className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f]/90 p-2 shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:p-3"
+              className="mt-12 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0a0a0f] shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
             >
               <CalendlyEmbed url={CALENDLY_EMBED_URL} />
             </motion.div>

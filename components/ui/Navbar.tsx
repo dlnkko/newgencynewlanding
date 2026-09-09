@@ -5,7 +5,7 @@ import { useEffect, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-import { NAV_ITEMS } from "@/lib/constants";
+import { NAV_ITEMS, PRIMARY_CTA_HREF, PRIMARY_CTA_LABEL } from "@/lib/constants";
 import { EASE } from "@/lib/motion";
 import { scrollToId, scrollToTop } from "@/lib/utils";
 
@@ -165,17 +165,17 @@ export function Navbar() {
             </button>
 
             <motion.a
-              href="/#apply"
+              href={PRIMARY_CTA_HREF}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-4 text-[13px] font-semibold text-[#0a0a0f] shadow-[0_0_24px_rgba(139,124,246,0.3)] sm:h-11 sm:gap-1.5 sm:px-6 sm:text-sm md:min-h-[44px] md:px-7 md:py-3 md:text-[15px] md:shadow-[0_0_28px_rgba(139,124,246,0.35)] md:hover:shadow-[0_0_40px_rgba(125,211,252,0.35)]"
+              className="inline-flex h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-3.5 text-[12px] font-semibold text-[#0a0a0f] shadow-[0_0_24px_rgba(139,124,246,0.3)] sm:h-11 sm:px-5 sm:text-[13px] md:min-h-[44px] md:px-6 md:text-sm md:shadow-[0_0_28px_rgba(139,124,246,0.35)] md:hover:shadow-[0_0_40px_rgba(125,211,252,0.35)]"
               style={{ fontFamily: "var(--font-dm-sans)" }}
               onClick={(e) => {
-                onInPageNav(e, "/#apply");
+                onInPageNav(e, PRIMARY_CTA_HREF);
                 closeMenu();
               }}
             >
-              <span>Hire us</span>
+              <span>{PRIMARY_CTA_LABEL}</span>
             </motion.a>
           </motion.div>
         </div>
@@ -221,6 +221,19 @@ export function Navbar() {
                   </span>
                 </motion.a>
               ))}
+              <motion.a
+                href={PRIMARY_CTA_HREF}
+                onClick={(e) => {
+                  onInPageNav(e, PRIMARY_CTA_HREF);
+                  closeMenu();
+                }}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.04 * NAV_ITEMS.length, duration: 0.28, ease: EASE }}
+                className="flex min-h-[48px] touch-manipulation items-center rounded-xl px-4 font-sans text-[15px] font-semibold text-white/90 transition-colors active:bg-white/[0.06]"
+              >
+                {PRIMARY_CTA_LABEL}
+              </motion.a>
             </motion.nav>
           </>
         ) : null}

@@ -1,31 +1,39 @@
+export const PRIMARY_CTA_LABEL = "Book a Creative Call" as const;
+export const PRIMARY_CTA_HREF = "/#apply" as const;
+export const SECONDARY_CTA_LABEL = "Watch Our Work" as const;
+export const SECONDARY_CTA_HREF = "/#work" as const;
+
 export const NAV_ITEMS = [
-  { label: "What we do", href: "/#what-we-do" },
   { label: "Work", href: "/#work" },
-  { label: "Book a Call", href: "/#apply" },
+  { label: "What we do", href: "/#what-we-do" },
 ] as const;
 
 /** Hero background reel — place file at `public/hero-reel.mp4` or change path. */
 export const HERO_VIDEO_SRC = "/hero-reel.mp4";
 
-export const HERO_HEADLINE_WORDS = [
-  "AI",
-  "commercials",
-  "for",
-  "local",
-  "businesses.",
-] as const;
+export const HERO_COPY = {
+  eyebrow: "Cinematic commercials for local businesses",
+  headlineLead: "Your business deserves to look",
+  headlineAccent: "as good as it really is.",
+  description:
+    "Give customers and future partners a stronger first impression with a cinematic brand commercial. No traditional crew. No traditional production cost.",
+  support:
+    "AI-assisted production. Creative direction built around your business.",
+  watchReel: "Watch featured reel",
+  showCopy: "Show details",
+} as const;
 
-/** Word in the hero headline that gets the gradient. */
-export const HERO_HIGHLIGHT_WORD = "local";
-
-/** Subline below the hero headline. */
-export const HERO_SUBLINE =
-  "Cinematic ads for gyms, clinics, restaurants, and shops that need the next customer — not a Super Bowl slot." as const;
+export const WORK_COPY = {
+  eyebrow: "Selected work",
+  heading: "See what your next first impression could look like.",
+  subline: "Explore selected commercials for local businesses.",
+} as const;
 
 export const WHAT_WE_DO_INTRO = {
-  eyebrow: "WHAT WE DO",
-  lead: "National-looking ads. Built for Main Street.",
-  subline: "AI commercials for the businesses people actually visit.",
+  eyebrow: "WHY IT MATTERS",
+  lead: "A stronger first impression. Wherever business happens.",
+  subline:
+    "A cinematic commercial that introduces your business with the care you already put into the work.",
 } as const;
 
 export type WhatWeDoRow = {
@@ -37,30 +45,46 @@ export type WhatWeDoRow = {
 export const WHAT_WE_DO_ROWS: readonly WhatWeDoRow[] = [
   {
     kicker: "01",
-    title: "Look like the big brands.",
-    body: "TV-quality commercials without a crew, a warehouse, or a six-figure budget. Same light, same finish, same feel as a national campaign. Your customers won't know it was AI. That's the point.",
+    title: "Show the quality behind your business.",
+    body: "The commercial is a clear look at the care and professionalism already in your brand, so people can feel that before they walk in or take a meeting.",
   },
   {
     kicker: "02",
-    title: "Shot for the neighborhood.",
-    body: "Dentists. Gyms. Auto shops. Med spas. Restaurants. If people drive past you, we put you on their feed with a commercial that belongs there — not a generic stock ad.",
+    title: "Make your introduction count.",
+    body: "Use it when you introduce the business to customers and potential partners: a first impression that matches how seriously you take the work.",
   },
   {
     kicker: "03",
-    title: "Made to get the phone ringing.",
-    body: "Meta, TikTok, YouTube, Google. Spots cut to convert locally: more bookings, more walk-ins, more people who already live nearby.",
+    title: "Put your commercial to work.",
+    body: "Run it on your website, social channels, and in presentations: the places you already introduce the business.",
   },
 ] as const;
 
-export const LOCAL_ANGLE = {
-  eyebrow: "FOR LOCAL",
-  line: "You don't need a Hollywood budget to look like you belong on TV.",
-  name: "Newgency",
-  context: "AI commercials for local businesses",
+export const OFFER_COPY = {
+  eyebrow: "THE OFFER",
+  heading: "One signature commercial. More ways to introduce your business.",
+  lead: "A cinematic brand commercial, shaped around how your business actually works. AI is part of production, not something we conceal.",
+  items: [
+    {
+      title: "Concept and creative direction",
+      body: "We build the idea around your business before production starts.",
+    },
+    {
+      title: "A signature commercial",
+      body: "The finished piece: one cinematic introduction to your brand.",
+    },
+    {
+      title: "AI-assisted production",
+      body: "AI helps us produce the work. Creative direction stays specific to you.",
+    },
+  ],
+  note: "Formats, revisions, usage, and timing are scoped on the creative call.",
 } as const;
 
-/** Cinematic backdrop for the local-angle block — reuse a work reel. */
-export const LOCAL_ANGLE_VIDEO_SRC = "/work/hvac.mp4";
+export const APPLY_COPY = {
+  heading: PRIMARY_CTA_LABEL,
+  body: "Pick a time. We'll talk about your business and the commercial that should introduce it.",
+} as const;
 
 export const LOCAL_VERTICALS = [
   "Gyms & studios",

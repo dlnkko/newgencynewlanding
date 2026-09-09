@@ -12,7 +12,7 @@ type BookCallButtonProps = {
 export function BookCallButton({
   className = "",
   animated = false,
-  children = "Book a Call",
+  children = "Book a Creative Call",
   onClick,
 }: BookCallButtonProps) {
   if (animated) {

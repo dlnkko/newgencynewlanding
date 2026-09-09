@@ -53,6 +53,7 @@ html {
 #hero,
 #what-we-do,
 #work,
+#offer,
 #apply {
   scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 4.75rem);
 }
@@ -420,4 +421,21 @@ a {
 
 .brand-logo--on-light.brand-logo--active .brand-logo__img {
   filter: grayscale(1) brightness(0) invert(1);
+}
+
+.calendly-host {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 700px;
+  overflow: hidden;
+  background: #0a0a0f;
+}
+
+.calendly-host iframe {
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100%;
+  border: 0;
 }

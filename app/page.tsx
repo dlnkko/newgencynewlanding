@@ -2,9 +2,9 @@ import { Navbar } from "@/components/ui/Navbar";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { LandingEntry } from "@/components/ui/LandingEntry";
 import { Hero } from "@/components/sections/Hero";
-import { WhatWeDo } from "@/components/sections/WhatWeDo";
-import { ForLocal } from "@/components/sections/ForLocal";
 import { SelectedWork } from "@/components/sections/SelectedWork";
+import { WhatWeDo } from "@/components/sections/WhatWeDo";
+import { OfferSection } from "@/components/sections/OfferSection";
 import { ApplySection } from "@/components/sections/ApplySection";
 
 export default function Home() {
@@ -17,9 +17,9 @@ export default function Home() {
         <div className="relative isolate bg-[#030303]">
           <AmbientBackground />
           <div className="relative z-10">
-            <WhatWeDo />
-            <ForLocal />
             <SelectedWork />
+            <WhatWeDo />
+            <OfferSection />
             <ApplySection />
           </div>
         </div>

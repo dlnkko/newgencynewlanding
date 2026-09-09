@@ -5,8 +5,8 @@ import { AmbientBackground } from "@/components/ui/AmbientBackground";
 import { ScheduleSection } from "@/components/sections/ScheduleSection";
 
 export const metadata: Metadata = {
-  title: "Book a Call | Newgency",
-  description: "Schedule a call with the Newgency team.",
+  title: "Book a Creative Call | Newgency",
+  description: "Schedule a creative call with the Newgency team.",
 };
 
 export default function SchedulePage() {
