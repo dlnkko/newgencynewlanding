@@ -17,6 +17,7 @@ export function WorkCarousel() {
   const railRef = useRef<HTMLDivElement>(null);
   const dragStartX = useRef<number | null>(null);
   const [index, setIndex] = useState(0);
+  const [restartToken, setRestartToken] = useState(0);
   const [videosEnabled, setVideosEnabled] = useState(false);
   const slot = WORK_SLOTS[index]!;
 
@@ -40,6 +41,7 @@ export function WorkCarousel() {
 
   const goTo = useCallback((to: number) => {
     setIndex(((to % N) + N) % N);
+    setRestartToken((n) => n + 1);
   }, []);
 
   const goNext = useCallback(() => goTo(index + 1), [goTo, index]);
@@ -122,6 +124,7 @@ export function WorkCarousel() {
               src={s.videoSrc}
               isActive={i === index}
               enabled={videosEnabled}
+              restartToken={restartToken}
               preload={i === index ? "auto" : "metadata"}
             />
           ) : null,

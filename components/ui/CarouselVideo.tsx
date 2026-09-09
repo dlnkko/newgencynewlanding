@@ -6,6 +6,8 @@ type CarouselVideoProps = {
   src: string;
   isActive: boolean;
   enabled: boolean;
+  /** Bump this to force playback from the start. */
+  restartToken?: number;
   preload?: "none" | "metadata" | "auto";
   className?: string;
 };
@@ -14,6 +16,7 @@ export function CarouselVideo({
   src,
   isActive,
   enabled,
+  restartToken = 0,
   preload = "metadata",
   className = "",
 }: CarouselVideoProps) {
@@ -66,11 +69,21 @@ export function CarouselVideo({
     if (!el || !enabled) return;
 
     if (isActive) {
+      try {
+        el.currentTime = 0;
+      } catch {
+        /* ignore seek before metadata */
+      }
       void tryPlay();
     } else {
       el.pause();
+      try {
+        el.currentTime = 0;
+      } catch {
+        /* ignore */
+      }
     }
-  }, [isActive, enabled, tryPlay]);
+  }, [isActive, enabled, restartToken, tryPlay]);
 
   if (!enabled) return null;
 

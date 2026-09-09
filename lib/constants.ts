@@ -104,14 +104,14 @@ export type WorkSlot = {
 
 /** Portfolio spots — local-business commercials. Verity is the only repeated logo. */
 export const WORK_SLOTS: readonly WorkSlot[] = [
-  { id: "w-lou", label: "Lou Bachrodt Chevrolet", industry: "Auto", logoSrc: "/logos/lou-bachrodt.png", videoSrc: "/work/lou.mp4" },
-  { id: "w-hvac", label: "Solar Installers of Florida", industry: "Home services", logoSrc: "/logos/solar-installers.png", videoSrc: "/work/hvac.mp4" },
+  { id: "w-verity", label: "Verity Credit Union", industry: "Finance", logoSrc: "/logos/verity.png", videoSrc: "/work/verity-rainier.mp4" },
   { id: "w-lindstrom", label: "Lindstrom", industry: "Home services", logoSrc: "/logos/lindstrom.png", videoSrc: "/work/lindstrom.mp4" },
   { id: "w-evergreen", label: "Verity Credit Union", industry: "Finance", logoSrc: "/logos/verity.png", videoSrc: "/work/evergreen.mp4" },
-  { id: "w-ronsholes", label: "Ron Sholes P.A.", industry: "Professional services", logoSrc: "/logos/ron-sholes.png", videoSrc: "/work/ronsholes.mp4" },
-  { id: "w-verity", label: "Verity Credit Union", industry: "Finance", logoSrc: "/logos/verity.png", videoSrc: "/work/verity-rainier.mp4" },
-  { id: "w-vision", label: "Mid-Atlantic Eyecare", industry: "Healthcare", logoSrc: "/logos/mid-atlantic.png", videoSrc: "/work/vision.mp4" },
+  { id: "w-hvac", label: "Solar Installers of Florida", industry: "Home services", logoSrc: "/logos/solar-installers.png", videoSrc: "/work/hvac.mp4" },
   { id: "w-funding", label: "B2B Funding", industry: "B2B", logoSrc: "/logos/b2b-funding.png", videoSrc: "/work/b2b-funding.mp4" },
-  { id: "w-primeway", label: "PrimeWay", industry: "Finance", logoSrc: "/logos/primeway.png", logoOnLight: true, videoSrc: "/proyecto-b.mp4" },
+  { id: "w-primeway", label: "PrimeWay", industry: "Finance", logoSrc: "/logos/primeway.png", videoSrc: "/proyecto-b.mp4" },
+  { id: "w-lou", label: "Lou Bachrodt Chevrolet", industry: "Auto", logoSrc: "/logos/lou-bachrodt.png", videoSrc: "/work/lou.mp4" },
+  { id: "w-vision", label: "Mid-Atlantic Eyecare", industry: "Healthcare", logoSrc: "/logos/mid-atlantic.png", videoSrc: "/work/vision.mp4" },
   { id: "w-advocating", label: "VisionAmerica", industry: "Healthcare", logoSrc: "/logos/vision-america.png", videoSrc: "/work/vision-america.mp4" },
+  { id: "w-ronsholes", label: "Ron Sholes P.A.", industry: "Professional services", logoSrc: "/logos/ron-sholes.png", videoSrc: "/work/ronsholes.mp4" },
 ] as const;
