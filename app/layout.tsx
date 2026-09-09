@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Newgency. Cinematic commercials for local businesses",
     description:
-      "A cinematic brand commercial for local businesses. AI-assisted production. Creative direction built around your business.",
+      "A cinematic brand commercial for local businesses. You bring the idea. We bring it to life.",
   },
 };
 

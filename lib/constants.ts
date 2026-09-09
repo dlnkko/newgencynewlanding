@@ -18,7 +18,7 @@ export const HERO_COPY = {
   description:
     "Give customers and future partners a stronger first impression with a cinematic brand commercial. No traditional crew. No traditional production cost.",
   support:
-    "AI-assisted production. Creative direction built around your business.",
+    "You bring the idea. We bring it to life.",
   watchReel: "Watch featured reel",
   showCopy: "Show details",
 } as const;
@@ -62,20 +62,20 @@ export const WHAT_WE_DO_ROWS: readonly WhatWeDoRow[] = [
 
 export const OFFER_COPY = {
   eyebrow: "THE OFFER",
-  heading: "One signature commercial. More ways to introduce your business.",
-  lead: "A cinematic brand commercial, shaped around how your business actually works. AI is part of production, not something we conceal.",
+  heading: "You bring the idea. We bring it to life.",
+  lead: "Tell us what the video should be about, what should happen, or what you want to communicate. We turn that into a high-quality, professional commercial. We do not create the concept. You do.",
   items: [
     {
-      title: "Concept and creative direction",
-      body: "We build the idea around your business before production starts.",
+      title: "You set the concept",
+      body: "You explain what the video should cover, what you want to happen, and what you want to communicate.",
     },
     {
-      title: "A signature commercial",
-      body: "The finished piece: one cinematic introduction to your brand.",
+      title: "We make it real",
+      body: "We produce that idea as a high-quality, professional audiovisual piece.",
     },
     {
       title: "AI-assisted production",
-      body: "AI helps us produce the work. Creative direction stays specific to you.",
+      body: "AI is part of how we produce the work, not something we conceal.",
     },
   ],
   note: "Formats, revisions, usage, and timing are scoped on the creative call.",
@@ -83,7 +83,7 @@ export const OFFER_COPY = {
 
 export const APPLY_COPY = {
   heading: PRIMARY_CTA_LABEL,
-  body: "Pick a time. We'll talk about your business and the commercial that should introduce it.",
+  body: "Pick a time. Tell us what you want the commercial to communicate. We'll bring it to life.",
 } as const;
 
 export const LOCAL_VERTICALS = [
