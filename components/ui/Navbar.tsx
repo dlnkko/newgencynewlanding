@@ -77,6 +77,7 @@ function NavLink({
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -85,19 +86,42 @@ export function Navbar() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
     <header
-      className="sticky top-0 z-50 w-full max-w-[100vw] border-b border-white/[0.08]"
-      style={{
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        background: "rgba(3, 3, 3, 0.82)",
-        paddingTop: "env(safe-area-inset-top)",
-      }}
+      className="fixed inset-x-0 top-0 z-50 w-full max-w-[100vw]"
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 md:px-16 lg:px-20">
+      <div
+        className={`pointer-events-none absolute inset-x-0 top-0 h-32 transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:h-40 ${
+          scrolled || menuOpen ? "opacity-100" : "opacity-80"
+        }`}
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(3,3,3,0.72) 0%, rgba(3,3,3,0.28) 46%, rgba(3,3,3,0) 100%)",
+        }}
+        aria-hidden
+      />
+      <div
+        className={`pointer-events-none absolute inset-x-0 top-0 h-24 backdrop-blur-[14px] transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:h-28 ${
+          scrolled || menuOpen ? "opacity-90" : "opacity-40"
+        }`}
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 35%, transparent 100%)",
+          maskImage: "linear-gradient(to bottom, black 35%, transparent 100%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-[1440px] px-4 sm:px-6 md:px-16 lg:px-20">
         <div className="flex h-14 items-center justify-between gap-3 md:h-[72px]">
           <motion.div
             initial={{ opacity: 0, x: -12 }}

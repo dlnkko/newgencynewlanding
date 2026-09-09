@@ -64,7 +64,7 @@ export function Hero() {
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full min-w-0 max-w-[920px] flex-col items-center justify-center px-5 pb-[max(5.5rem,env(safe-area-inset-bottom,0px)+4rem)] pt-[max(5rem,env(safe-area-inset-top,0px)+3.5rem)] text-center sm:px-10 md:px-12">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] w-full min-w-0 max-w-[1180px] flex-col items-center justify-center px-5 pb-[max(5.5rem,env(safe-area-inset-bottom,0px)+4rem)] pt-[max(5.25rem,env(safe-area-inset-top,0px)+4.25rem)] text-center sm:px-10 md:px-16">
         <motion.div
           className="flex flex-col items-center"
           initial={reduceMotion ? false : { opacity: 0, y: 18 }}
@@ -89,13 +89,13 @@ export function Hero() {
           />
 
           <motion.h1
-            className="font-display m-0 mt-6 max-w-[min(100%,38rem)] text-[clamp(2rem,6.2vw,3.75rem)] font-extrabold leading-[1.08] tracking-[-0.04em] text-white [text-wrap:balance] [text-shadow:0_8px_40px_rgba(0,0,0,0.45)] sm:mt-7"
+            className="font-display m-0 mt-7 w-full max-w-[min(100%,58rem)] text-[clamp(1.15rem,4.6vw,4.15rem)] font-extrabold leading-[1.18] tracking-[-0.022em] text-white [text-shadow:0_8px_40px_rgba(0,0,0,0.45)] sm:mt-8 sm:text-[clamp(1.85rem,5.8vw,4.15rem)]"
             initial={reduceMotion ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.22 }}
           >
-            {HERO_COPY.headlineLead}{" "}
-            <span className="bg-gradient-to-r from-[#e9d5ff] via-[#a78bfa] to-[#7dd3fc] bg-clip-text text-transparent">
+            <span className="block whitespace-nowrap">{HERO_COPY.headlineLead}</span>
+            <span className="mt-1 block bg-gradient-to-r from-[#e9d5ff] via-[#a78bfa] to-[#7dd3fc] bg-clip-text text-transparent sm:mt-1.5">
               {HERO_COPY.headlineAccent}
             </span>
           </motion.h1>
