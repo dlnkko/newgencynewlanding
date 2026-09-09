@@ -2,7 +2,14 @@
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-import { LOCAL_VERTICALS, WHAT_WE_DO_INTRO, WHAT_WE_DO_ROWS } from "@/lib/constants";
+import {
+  BOOK_CALL_LABEL,
+  PRIMARY_CTA_HREF,
+  WHAT_WE_DO_INTRO,
+  WHAT_WE_DO_ROWS,
+} from "@/lib/constants";
+import { CtaButton } from "@/components/ui/CtaButton";
+import { scrollToId } from "@/lib/utils";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import {
   EASE,
@@ -203,16 +210,18 @@ function IntroCopy() {
       <p className="mt-3 font-sans text-[15px] font-medium leading-snug text-white/70 md:text-base">
         {WHAT_WE_DO_INTRO.subline}
       </p>
-      <ul className="mt-6 flex flex-wrap gap-2">
-        {LOCAL_VERTICALS.map((label) => (
-          <li
-            key={label}
-            className="rounded-full border border-white/[0.1] bg-white/[0.03] px-3 py-1 font-sans text-[11px] font-medium tracking-[-0.01em] text-white/55 sm:text-xs"
-          >
-            {label}
-          </li>
-        ))}
-      </ul>
+      <div className="mt-7">
+        <CtaButton
+          href={PRIMARY_CTA_HREF}
+          onClick={(e) => {
+            e.preventDefault();
+            history.pushState(null, "", PRIMARY_CTA_HREF);
+            scrollToId("apply");
+          }}
+        >
+          {BOOK_CALL_LABEL}
+        </CtaButton>
+      </div>
     </>
   );
 }

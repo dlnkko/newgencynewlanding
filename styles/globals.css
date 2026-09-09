@@ -439,3 +439,47 @@ a {
   max-width: 100%;
   border: 0;
 }
+
+.cta-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cta-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 48%,
+    transparent 66%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.cta-shine:hover::after {
+  transform: translateX(130%);
+}
+
+.cta-shine--primary:hover {
+  box-shadow: 0 0 42px rgba(125, 211, 252, 0.38);
+}
+
+.cta-shine:not(.cta-shine--primary):hover {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 44px -14px rgba(255, 255, 255, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-shine::after {
+    display: none;
+  }
+}

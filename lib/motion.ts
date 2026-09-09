@@ -5,6 +5,10 @@ export type ScrollDir = "up" | "down";
 /** Shared editorial easing — smooth on desktop and mobile. */
 export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+export const buttonHover = { y: -2, scale: 1.03 };
+export const buttonTap = { y: 0, scale: 0.98 };
+export const buttonTransition = { duration: 0.5, ease: EASE };
+
 /** Mobile-friendly: triggers with less visible area. */
 export const SECTION_VIEWPORT = {
   once: false as const,

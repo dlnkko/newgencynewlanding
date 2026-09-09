@@ -1,5 +1,8 @@
 export const PRIMARY_CTA_LABEL = "Book a Creative Call" as const;
 export const PRIMARY_CTA_HREF = "/#apply" as const;
+export const BOOK_CALL_LABEL = "Book a Call" as const;
+export const HERO_PRIMARY_LABEL = "What we do" as const;
+export const HERO_PRIMARY_HREF = "/#what-we-do" as const;
 export const SECONDARY_CTA_LABEL = "Watch Our Work" as const;
 export const SECONDARY_CTA_HREF = "/#work" as const;
 
@@ -15,12 +18,8 @@ export const HERO_COPY = {
   eyebrow: "Cinematic commercials for local businesses",
   headlineLead: "Your business deserves to look",
   headlineAccent: "as good as it really is.",
-  description:
-    "Give customers and future partners a stronger first impression with a cinematic brand commercial. No traditional crew. No traditional production cost.",
   support:
     "You bring the idea. We bring it to life.",
-  watchReel: "Watch featured reel",
-  showCopy: "Show details",
 } as const;
 
 export const WORK_COPY = {

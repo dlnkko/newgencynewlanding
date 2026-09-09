@@ -147,22 +147,28 @@ export function WorkCarousel() {
           </AnimatePresence>
         </div>
 
-        <button
+        <motion.button
           type="button"
           onClick={goPrev}
-          className="absolute left-1.5 top-1/2 z-30 flex size-10 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/80 backdrop-blur-md transition duration-300 hover:border-white/25 hover:bg-black/65 hover:text-white sm:left-3 md:left-4"
+          whileHover={reduceMotion ? undefined : { scale: 1.08, y: -1 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+          transition={{ duration: 0.45, ease: EASE }}
+          className="absolute left-1.5 top-1/2 z-30 flex size-10 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/80 backdrop-blur-md hover:border-white/30 hover:bg-black/65 hover:text-white sm:left-3 md:left-4"
           aria-label="Previous commercial"
         >
           <ChevronLeft className="size-5" strokeWidth={1.5} />
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           type="button"
           onClick={goNext}
-          className="absolute right-1.5 top-1/2 z-30 flex size-10 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/80 backdrop-blur-md transition duration-300 hover:border-white/25 hover:bg-black/65 hover:text-white sm:right-3 md:right-4"
+          whileHover={reduceMotion ? undefined : { scale: 1.08, y: -1 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+          transition={{ duration: 0.45, ease: EASE }}
+          className="absolute right-1.5 top-1/2 z-30 flex size-10 min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.12] bg-black/45 text-white/80 backdrop-blur-md hover:border-white/30 hover:bg-black/65 hover:text-white sm:right-3 md:right-4"
           aria-label="Next commercial"
         >
           <ChevronRight className="size-5" strokeWidth={1.5} />
-        </button>
+        </motion.button>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-2.5 md:grid-cols-5">
