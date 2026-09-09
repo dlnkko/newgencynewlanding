@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 import { NAV_ITEMS } from "@/lib/constants";
 import { EASE } from "@/lib/motion";
+import { scrollToId, scrollToTop } from "@/lib/utils";
 
 const navContainer = {
   hidden: { opacity: 0 },
@@ -25,6 +26,20 @@ const navItem = {
   },
 };
 
+function onInPageNav(e: MouseEvent<HTMLAnchorElement>, href: string) {
+  const hash = href.includes("#") ? href.slice(href.indexOf("#") + 1) : "";
+  if (!hash) {
+    e.preventDefault();
+    history.pushState(null, "", "/");
+    scrollToTop();
+    return;
+  }
+  if (!document.getElementById(hash)) return;
+  e.preventDefault();
+  history.pushState(null, "", href);
+  scrollToId(hash);
+}
+
 function NavLink({
   href,
   label,
@@ -39,7 +54,10 @@ function NavLink({
   return (
     <motion.a
       href={href}
-      onClick={onClick}
+      onClick={(e) => {
+        onInPageNav(e, href);
+        onClick?.();
+      }}
       variants={navItem}
       className={`group relative font-sans text-[15px] font-medium transition-[filter] duration-300 ${className}`}
       whileHover={{ y: -1 }}
@@ -89,7 +107,14 @@ export function Navbar() {
               href="/"
               aria-label="Newgency home"
               className="min-w-0 shrink-0 select-none transition-opacity hover:opacity-90"
-              onClick={closeMenu}
+              onClick={(e) => {
+                closeMenu();
+                if (window.location.pathname === "/") {
+                  e.preventDefault();
+                  history.pushState(null, "", "/");
+                  scrollToTop();
+                }
+              }}
             >
               <span
                 className="text-[1.2rem] leading-none tracking-[-0.035em] sm:text-[clamp(1.125rem,4vw,1.5rem)]"
@@ -145,7 +170,10 @@ export function Navbar() {
               whileTap={{ scale: 0.98 }}
               className="inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-full bg-gradient-to-r from-[#8b7cf6] to-[#7dd3fc] px-4 text-[13px] font-semibold text-[#0a0a0f] shadow-[0_0_24px_rgba(139,124,246,0.3)] sm:h-11 sm:gap-1.5 sm:px-6 sm:text-sm md:min-h-[44px] md:px-7 md:py-3 md:text-[15px] md:shadow-[0_0_28px_rgba(139,124,246,0.35)] md:hover:shadow-[0_0_40px_rgba(125,211,252,0.35)]"
               style={{ fontFamily: "var(--font-dm-sans)" }}
-              onClick={closeMenu}
+              onClick={(e) => {
+                onInPageNav(e, "/#apply");
+                closeMenu();
+              }}
             >
               <span>Hire us</span>
             </motion.a>
@@ -179,7 +207,10 @@ export function Navbar() {
                 <motion.a
                   key={item.href}
                   href={item.href}
-                  onClick={closeMenu}
+                  onClick={(e) => {
+                    onInPageNav(e, item.href);
+                    closeMenu();
+                  }}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.04 * i, duration: 0.28, ease: EASE }}

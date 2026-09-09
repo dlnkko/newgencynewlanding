@@ -56,6 +56,12 @@ export default function RootLayout({
           fetchPriority="high"
         />
         <MetaPixel />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{if('scrollRestoration' in history)history.scrollRestoration='manual';if(!location.hash)scrollTo(0,0);}catch(e){}})();",
+          }}
+        />
       </head>
       <body className="min-h-screen overflow-x-clip bg-[#030303] text-zinc-100 antialiased font-sans">
         {children}

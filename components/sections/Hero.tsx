@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { HERO_HEADLINE_WORDS, HERO_HIGHLIGHT_WORD, HERO_SUBLINE } from "@/lib/constants";
 import { HeroVideo } from "@/components/sections/HeroVideo";
 import { EASE } from "@/lib/motion";
+import { scrollToId } from "@/lib/utils";
 
 const wordVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -33,6 +34,7 @@ export function Hero() {
 
   return (
     <section
+      id="hero"
       className="relative min-h-[100svh] w-full overflow-hidden bg-[#020202]"
       aria-label="Hero"
     >
@@ -127,7 +129,15 @@ export function Hero() {
 
         {reduceMotion ? (
           <div className="mt-8 flex w-full justify-center sm:mt-10 md:mt-9">
-            <a href="#apply" className={ctaClass}>
+            <a
+              href="#apply"
+              className={ctaClass}
+              onClick={(e) => {
+                e.preventDefault();
+                history.pushState(null, "", "/#apply");
+                scrollToId("apply");
+              }}
+            >
               Book a Call
             </a>
           </div>
@@ -143,6 +153,11 @@ export function Hero() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
               className={`${ctaClass} shadow-[0_0_36px_rgba(139,124,246,0.3)]`}
+              onClick={(e) => {
+                e.preventDefault();
+                history.pushState(null, "", "/#apply");
+                scrollToId("apply");
+              }}
             >
               Book a Call
             </motion.a>

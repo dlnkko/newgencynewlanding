@@ -41,6 +41,20 @@ body {
 
 html {
   overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+#hero,
+#what-we-do,
+#work,
+#apply {
+  scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 4.75rem);
 }
 
 body {

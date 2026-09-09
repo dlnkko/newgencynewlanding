@@ -14,7 +14,6 @@ const N = WORK_SLOTS.length;
 export function WorkCarousel() {
   const reduceMotion = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
   const dragStartX = useRef<number | null>(null);
   const [index, setIndex] = useState(0);
   const [restartToken, setRestartToken] = useState(0);
@@ -46,17 +45,6 @@ export function WorkCarousel() {
 
   const goNext = useCallback(() => goTo(index + 1), [goTo, index]);
   const goPrev = useCallback(() => goTo(index - 1), [goTo, index]);
-
-  useEffect(() => {
-    const thumb = railRef.current?.querySelector<HTMLElement>(
-      `[data-work-thumb="${index}"]`,
-    );
-    thumb?.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      inline: "center",
-      block: "nearest",
-    });
-  }, [index, reduceMotion]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -177,10 +165,7 @@ export function WorkCarousel() {
         </button>
       </div>
 
-      <div
-        ref={railRef}
-        className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-2.5 md:grid-cols-5"
-      >
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-2.5 md:grid-cols-5">
         {WORK_SLOTS.map((s, i) => {
           const active = i === index;
           return (

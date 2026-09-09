@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/ui/Navbar";
 import { AmbientBackground } from "@/components/ui/AmbientBackground";
+import { LandingEntry } from "@/components/ui/LandingEntry";
 import { Hero } from "@/components/sections/Hero";
 import { WhatWeDo } from "@/components/sections/WhatWeDo";
 import { ForLocal } from "@/components/sections/ForLocal";
@@ -9,6 +10,7 @@ import { ApplySection } from "@/components/sections/ApplySection";
 export default function Home() {
   return (
     <div className="flex min-h-full min-w-0 flex-col bg-[#030303]">
+      <LandingEntry />
       <Navbar />
       <main className="flex-1">
         <Hero />
