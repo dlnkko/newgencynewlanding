@@ -57,6 +57,12 @@ export default function RootLayout({
         />
         <MetaPixel />
         <script
+          defer
+          data-website-id="dfid_vJSs7steSH8o1eAAdAdtM"
+          data-domain="newgency.co"
+          src="https://datafa.st/js/script.js"
+        />
+        <script
           dangerouslySetInnerHTML={{
             __html:
               "(function(){try{if('scrollRestoration' in history)history.scrollRestoration='manual';if(!location.hash)scrollTo(0,0);}catch(e){}})();",
